@@ -1,0 +1,91 @@
+% ragni-cas - a simple computer algebra system aimed at code generation and templating
+
+% Disable review before sending
+\documentclass[preprint, 12pt, a4paper, review]{elsarticle}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{lineno}
+\usepackage{sty/tikz-uml}
+
+% Code listing
+\usepackage{xcolor,listings}
+\lstloadlanguages{Ruby}
+\lstset{basicstyle=\ttfamily\color{black}, commentstyle = \ttfamily\color{gray},   keywordstyle=\ttfamily\color{red}, stringstyle=\color{green}, language=Ruby,basicstyle=\footnotesize\ttfamily}
+
+\input{src/commands}
+
+\journal{SoftwareX}
+
+\begin{document}
+
+%  ___            _              _   _
+% | __| _ ___ _ _| |_ _ __  __ _| |_| |_ ___ _ _
+% | _| '_/ _ \ ' \  _| '  \/ _` |  _|  _/ -_) '_|
+% |_||_| \___/_||_\__|_|_|_\__,_|\__|\__\___|_|
+\begin{frontmatter}
+
+\title{\ragnicas~- A Pure \Ruby~Automatic Differentiation Library for Fast Prototyping of Interfaces}
+
+\author[ragni]{M. Ragni}
+\address[ragni]{Department of Industrial Engineering, University of Trento, 9, Sommarive, Povo di Trento, Italy}
+\ead{matteo.ragni@unitn.it}
+
+\begin{abstract}
+
+Ca. 100 words
+
+\end{abstract}
+
+\begin{keyword}
+CAS \sep{} code-generation \sep{} Ruby
+%% PACS codes here, in the form: \PACS code \sep code
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+\end{keyword}
+
+\end{frontmatter}
+
+%% TODO: Disable line-numbers before sending
+\linenumbers{}
+%%
+
+%% Body
+\input{src/motivation}
+\input{src/description}
+\input{src/snippets}
+\input{src/examples}
+\input{src/impact}
+\input{src/conclusions}
+
+\section*{Acknowledgements}
+\label{sec:acknowledgements}
+This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.
+
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%% \appendix
+
+%% \section{}
+%% \label{}
+
+%  ___ _ _    _ _                         _
+% | _ |_) |__| (_)___  __ _ _ _ __ _ _ __| |_ _  _
+% | _ \ | '_ \ | / _ \/ _` | '_/ _` | '_ \ ' \ || |
+% |___/_|_.__/_|_\___/\__, |_| \__,_| .__/_||_\_, |
+%                     |___/         |_|       |__/
+\bibliographystyle{elsarticle-num}
+\bibliography{bib}
+
+
+%\section*{Required Metadata}
+%\label{}
+
+\input{src/code-version}
+\end{document}
+\endinput
+
+%%
+%% End of file `Ragni2016.tex'.
