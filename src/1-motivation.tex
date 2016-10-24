@@ -16,20 +16,19 @@
 
 With the advent of the \emph{Internet of Things}, a written from scratch version of the \Ruby~interpreter called \Mruby~(\emph{eMbedded Ruby}) has been published on \emph{GitHub} by Matsumoto in 2014. The new interpreter is a lightweight implementation aimed at both low power devices and personal computer that complies with the standard. \Mruby~has a completely new API, and it is designed to be embedded in a complex project as a front-end interface --- e.g.\ a numerical optimization suite may use \Mruby~to get problem input definitions.
 
-The \Ruby~code-base exposes a a large set of utilities in core and standard library. This set of tool can be furthermore expanded through libraries, also known as \emph{gems}. Even the high number of gems deployed and available, there is no complete library that implements a \textbf{symbolic automatic differentiation} (AD) engine that also handles some basic computer algebra routines that is cross compatible with all the different \Ruby~interpreter.
+The \Ruby~code-base exposes a a large set of utilities in core and standard library. This set of tool can be furthermore expanded through libraries, also known as \emph{gems}. Even the high number of gems deployed and available, there is no library that implements a \textbf{symbolic automatic differentiation} (AD) engine that also handles some basic computer algebra routines that is cross compatible with all the different \Ruby~interpreter.
 
-\Ruby~has matured its fame as a web oriented language because of its capabilities web templete system and in general for processing complex content. This characteristic allows to efficiently generate code in other languages, and given such a gem, it is really easy to develop rapidly a specific code generator for well known software --- e.g.\ IPOPT\@.
+\Ruby~has matured its fame as a web oriented language with \emph{Rails}, and can efficiently generate code in other languages. An AD-capable gem is the foundamental step to develop rapidly a specific code generator for well known software --- e.g.\ IPOPT\@.
 
 The library that is described in this work, is a gem implemented in pure \Ruby~code and thus compatible with all interpreter that complies with the standard, that is able to perform symbolic AD and some simple computer algebra operations. In particular the library aims at:
 \begin{itemize}
   \item be an instrument for rapid development of prototype interface for numerical algorithms --- including the \Mruby~engine or exporting generated code --- that can be in different languages;
-  \item the library allows to rapidly test workaround for numerical issues particular to certain problems, by changing on request how the code is exported, and how basic functions are formulated;
-  \item long term impact, quite ambitious, of creating a complete open-source CAS system for the \Ruby~language, that must be compatible with all the interpreters that comply with the standard.
+  \item rapidly generate descriptions of mathematical models, with easy to implement workaround for numerical issues, changing on request how the code is exported, and how functions are formulated in the target language;
+  \item creating a complete open-source CAS system for the \Ruby~language, that is be compatible with all the interpreters that comply with the standard, as a long-term ambitious impact.
 \end{itemize}
 
-This is not the first gem that is able to perform AD. The available computer algebra library for \Ruby~are:
+This is not the first gem that tries to implement a CAS. The available computer algebra library for \Ruby~are:
 \begin{description}
-  \item [\emph{Rucas}] gem at early stage and with discontinued developing status; it implements basic simplification routines. There is no AD method, but it is one of the milestones.
+  \item [\emph{Rucas}] gem at early stage and with discontinued developing status; it implements basic simplification routines. There is no AD method, but it is one of the milestones. The development is discontinued since 2010.
   \item [\emph{Symengine}] is a wrapper for the C++ library \emph{symengine}. The back-end library is very complete, but it is compatible only with the mainstream \Ruby~interpreter. At the moment, the \emph{SciRuby} project reports the gem as broken, and removed it from its codebase. From a direct test, when performing AD of a function, the engine returns always \texttt{nil}.
-  \item [\emph{Datamelt}] probably the most complete choice, is a Java library and compatible with one particular \Ruby~virtual machine, called \Jruby.
 \end{description}
