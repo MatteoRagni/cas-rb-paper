@@ -5,17 +5,19 @@
 
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{pgf}
 \usepackage[hidelinks]{hyperref}
 
 \usepackage{lineno}
 \usepackage{sty/tikz-uml}
+\usetikzlibrary{arrows,automata}
 
 % Code listing
 \usepackage{xcolor,listings}
 \lstloadlanguages{Ruby}
 \lstset{basicstyle=\ttfamily\color{black}, commentstyle = \ttfamily\color{gray},   keywordstyle=\ttfamily\color{red}, stringstyle=\color{green}, language=Ruby,basicstyle=\footnotesize\ttfamily}
 
-\input{src/commands}
+\input{src/0-commands}
 
 \journal{SoftwareX}
 
@@ -29,7 +31,7 @@
 
 \title{\ragnicas~- A Pure \Ruby~Automatic Differentiation Library for Fast Prototyping of Interfaces}
 
-\author[ragni]{M. Ragni}
+\author[ragni]{Matteo Ragni}
 \address[ragni]{Department of Industrial Engineering, University of Trento, 9, Sommarive, Povo di Trento, Italy}
 \ead{matteo.ragni@unitn.it}
 
@@ -53,12 +55,12 @@ CAS \sep{} code-generation \sep{} Ruby
 %%
 
 %% Body
-\input{src/motivation}
-\input{src/description}
-\input{src/snippets}
-\input{src/examples}
-\input{src/impact}
-\input{src/conclusions}
+\input{src/1-motivation}
+\input{src/2-description}
+\input{src/3-snippets}
+\input{src/4-examples}
+\input{src/5-impact}
+\input{src/6-conclusions}
 
 \section*{Acknowledgements}
 \label{sec:acknowledgements}
@@ -83,7 +85,7 @@ This research did not receive any specific grant from funding agencies in the pu
 %\section*{Required Metadata}
 %\label{}
 
-\input{src/code-version}
+\input{src/7-code-version}
 \end{document}
 \endinput
 

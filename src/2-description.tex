@@ -26,6 +26,12 @@ Each symbolic function is an object modeled by a class. The class inherits from 
 \left( f \, \circ \, g \right)
 \end{equation}
 When a new operation is created, it is appended to the linked list, creating a graph that can have an arbitrary number of branches. The number of branches are determined by the parent container class of the current symbolic function. There are three possible containers. Single argument functions --- e.g. $\sin(\cdot)$ --- have as closest parent the \CASOp~class, that links to one sub-graph. Functions with two arguments --- e.g.\ difference or exponential function --- inherit from \CASBinaryOp, that links to two subgraphs. Functions with arbitrary number of arguments --- e.g.\ sum and product --- have as parent the \CASNaryOp\footnote{Please note that this container is still at experimental stage}, that links to an arbitrary number of subgraph. The different kind of containers allows to introduce some properties like \emph{associativity} and \emph{commutativity}. Each container allows to access the subgraphs through instance properties. Containers structure is shown in fgure~\ref{fig:uml-container}
+\begin{figure}[ht!]
+\label{fig:graph}
+\centering
+\input{img/graph-ex}
+\caption{Example graph from the function expressed in script~\ref{code:example1}}
+\end{figure}
 
 Terminal leaf of the graph are the two classes \CASConstant~and \CASVariable. The first is a node for a simple numerical value, while the latter represents an independent variable, that can be used to perform derivatives and evaluations. As for now, those nodes are only scalar numbers, with the plan to define also the vector and matrix extensions in the next major release.
 
@@ -54,6 +60,7 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 
 The main functionality of the library is the \textbf{AD}, that can be performed against an independent variable or a symbolic expression. The function that performs the differentiation is a method of the \CASOp~container. Argument of the function is again a \CASOp~or a \CASVariable.
 \begin{lstlisting}
+\label{code:example1}
 x = CAS::vars 'x'          # creates a variable
 f = x ** 2 + 1             # define a symbolic expression
 f.diff(x)                  # derivative w.r.t. x
