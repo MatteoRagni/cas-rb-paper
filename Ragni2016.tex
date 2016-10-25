@@ -3,6 +3,8 @@
 % Disable review before sending
 \documentclass[preprint, 12pt, a4paper, review]{elsarticle}
 
+\usepackage[english]{babel}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{pgf}
@@ -14,8 +16,21 @@
 
 % Code listing
 \usepackage{xcolor,listings}
+\lstdefinestyle{customruby}{
+  belowcaptionskip=0.3\baselineskip,
+  breaklines=true,
+  frame=tb,
+  xleftmargin=\parindent,
+  language=Ruby,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily\color{black},
+  keywordstyle=\color{red!40!black},
+  commentstyle=\color{gray},
+  identifierstyle=\color{black},
+  stringstyle=\color{green!40!black},
+}
 \lstloadlanguages{Ruby}
-\lstset{basicstyle=\ttfamily\color{black}, commentstyle = \ttfamily\color{gray},   keywordstyle=\ttfamily\color{red}, stringstyle=\color{green}, language=Ruby,basicstyle=\footnotesize\ttfamily}
+\lstset{style=customruby}
 
 \input{src/0-commands}
 

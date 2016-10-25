@@ -15,10 +15,10 @@
 
   \node[state,variables] (X)     [below left of=Pow]    {$z$};
   \node[state,binaryop]  (Minus) [below right of=Pow]   {$x - y$};
-  
+
   \node[state,constant]  (Two2)  [below left of=Minus]  {$2$};
   \node[state,constant]  (One)   [below right of=Minus] {$1$};
-  
+
   % Legend
   \node[naryop]    (legend-Nary)   [below of=One,yshift=1cm] {\makebox[1.7cm]{\scriptsize\texttt{CAS::NaryOp}}};
   \node[binaryop]  (legend-Binary) [left of=legend-Nary]    {\makebox[1.7cm]{\scriptsize\texttt{CAS::BinaryOp}}};
@@ -27,15 +27,15 @@
   \node (legendText) [left of=legend-Binary] {\scriptsize Classes:};
 
   % Origin
-  \node (equation) [above of=Sum,xshift=-2.5cm] {$\dfrac{d}{dz}\,z^2 = 2\,z^{(2 - 1)}+0$};
+  \node (equation) [above of=Sum,xshift=-2.5cm] {$\dfrac{d}{dz}\,\left(z^2 + 1\right) = 2\,z^{(2 - 1)}+0$};
 
-  \path (Sum)      edge node [anchor=south east] {\scriptsize $x_0 \leftarrow 2\,z^{(2 - 1)}$} (Prod) 
+  \path (Sum)      edge node [anchor=south east] {\scriptsize $x_0 \leftarrow 2\,z^{(2 - 1)}$} (Prod)
                    edge node {\scriptsize $x_1 \leftarrow 0$}                                  (Zero)
-        (Prod)     edge node [anchor=south east] {\scriptsize $x_0 \leftarrow 2$}              (Two)  
+        (Prod)     edge node [anchor=south east] {\scriptsize $x_0 \leftarrow 2$}              (Two)
                    edge node                     {\scriptsize $x_1 \leftarrow z^{(2-1)}$}      (Pow)
-        (Pow)      edge node [anchor=south east] {\scriptsize $x \leftarrow z$}                (X) 
+        (Pow)      edge node [anchor=south east] {\scriptsize $x \leftarrow z$}                (X)
                    edge node                     {\scriptsize $y \leftarrow (2 - 1)$}          (Minus)
-        (Minus)    edge node [anchor=south east] {\scriptsize $x \leftarrow 2$ }               (Two2) 
+        (Minus)    edge node [anchor=south east] {\scriptsize $x \leftarrow 2$ }               (Two2)
                    edge node                     {\scriptsize $y \leftarrow 1$ }               (One)
         (equation) edge                                                                        (Sum);
 \end{tikzpicture}

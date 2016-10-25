@@ -15,3 +15,39 @@
 % submission please test and validate your .mp4 file at
 % $ http://elsevier-apps.sciverse.com/GadgetVideoPodcastPlayerWeb/verification$. This tool
 % will display your video exactly in the same way as it will appear on ScienceDirect.).
+As example, an implementation of a algorithm that extimates the \emph{order of convergence} for trapezoidal integration scheme will be provided, using the automatic differentiation as support library for the function to be integrated. The result of the algorithm is the order of convergence of the integration scheme.
+
+Given a function $F(x)$, and its derivative $f(x)$, and the trapezoidal rule for the integration between the interval $[a,\,b]$:
+\begin{equation}
+  \hat{F}(a, b, n) = \dfrac{b - a}{n} \left( \dfrac{f(a) + f(b)}{2} +
+    \sum\limits_{k = 1}^{n}{f \left( a + k \dfrac{b - a}{n} \right)} \right)
+\end{equation}
+where $n$ is the number of the point of the mesh. The error of the approximation is:
+\begin{equation}
+  E[n] = F(b) - F(a) - \hat{F}(a, b, n)
+\end{equation}
+This error shows a direct relation:
+\begin{equation}
+  E[n] \propto C\,{n}^{-p}
+\end{equation}
+where $p$ is the convergence order. Using a different value for $n$, for example $2\,n$:
+\begin{equation}
+  \dfrac{E[n]}{E[2\,n]} = 2^{p} \quad \rightarrow \quad p = log_2 \left( \dfrac{E[n]}{E[2\,n]} \right)
+\end{equation}
+
+\begin{lstlisting}[caption={Metaprogramming example for },label={code:trapezoidal}]
+require 'ragni-cas'
+
+def integrate(f, a, b, n)
+  [a, b, n].each { |e| raise ArgumentError unless e.is_a? Float }
+  raise ArgumentError unless f.is_a? CAS::Op
+
+  h = (b - a)/n
+  x = f.args[0]
+  k = CAS.vars 'k'
+
+  fk = (f.subs x: (a + h * k)).as_proc
+
+  return (0..n).inject { |s, k| s += fk.call 'k' => k }
+end
+\end{lstlisting}
