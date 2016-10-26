@@ -3,13 +3,13 @@ import math
 
 def integrate(f, a, b, n):
     h = (b - a)/n
-    x, k = sympy.symbols('x k')
+    x = sympy.symbols('x')
 
-    fk = sympy.lambdify((k), sympy.Subs(f, (x), (k * h)).doit())
+    func = sympy.lambdify((x), f)
 
-    sums = (fk(0) + fk(n)) / 2.0
+    sums = (func(a) + func(b)) / 2.0
     for i in range(1, n):
-        sums += fk(i)
+        sums += func(a + i * h)
     return sums * h
 
 def order(f, a, b, n):
@@ -24,5 +24,5 @@ def order(f, a, b, n):
 x = sympy.symbols('x')
 f = sympy.atan(x)
 
-o = order(f, -1.0, 1.0, 10000)
+o = order(f, -1.0, 1.0, 100)
 print(o)

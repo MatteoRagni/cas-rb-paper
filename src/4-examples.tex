@@ -35,19 +35,5 @@ where $p$ is the convergence order. Using a different value for $n$, for example
   \dfrac{E[n]}{E[2\,n]} = 2^{p} \quad \rightarrow \quad p = log_2 \left( \dfrac{E[n]}{E[2\,n]} \right)
 \end{equation}
 
-\begin{lstlisting}[caption={Metaprogramming example for },label={code:trapezoidal}]
-require 'ragni-cas'
-
-def integrate(f, a, b, n)
-  [a, b, n].each { |e| raise ArgumentError unless e.is_a? Float }
-  raise ArgumentError unless f.is_a? CAS::Op
-
-  h = (b - a)/n
-  x = f.args[0]
-  k = CAS.vars 'k'
-
-  fk = (f.subs x: (a + h * k)).as_proc
-
-  return (0..n).inject { |s, k| s += fk.call 'k' => k }
-end
-\end{lstlisting}
+\lstinputlisting[style=customruby]{./scripts/test.rb}
+\lstinputlisting[style=customruby,language=python]{./scripts/test.py}
