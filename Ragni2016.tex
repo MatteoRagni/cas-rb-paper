@@ -1,7 +1,7 @@
 % ragni-cas - a simple computer algebra system aimed at code generation and templating
 
 % Disable review before sending
-\documentclass[preprint, 12pt, a4paper]{elsarticle}
+\documentclass[preprint, 12pt, a4paper,review]{elsarticle}
 
 \usepackage[english]{babel}
 
@@ -15,21 +15,23 @@
 \usetikzlibrary{arrows,automata}
 
 % Code listing
-\usepackage{xcolor,listings}
+\usepackage{xcolor,listings,fontspec,parcolumns}
+\newfontfamily{\lstttfamily}[Scale=0.6]{Fira Mono}
 \lstdefinestyle{customruby}{
   belowcaptionskip=0.3\baselineskip,
   breaklines=true,
+  lineskip=-0.7ex,
   frame=tb,
   xleftmargin=\parindent,
   language=Ruby,
   showstringspaces=false,
-  basicstyle=\footnotesize\ttfamily\color{black},
+  basicstyle=\lstttfamily\color{black},
   keywordstyle=\color{red!40!black},
   commentstyle=\color{gray},
   identifierstyle=\color{black},
   stringstyle=\color{green!40!black},
 }
-\lstloadlanguages{Ruby}
+\lstloadlanguages{Ruby,Python,C}
 \lstset{style=customruby}
 
 \input{src/0-commands}

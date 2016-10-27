@@ -15,16 +15,16 @@
 % submission please test and validate your .mp4 file at
 % $ http://elsevier-apps.sciverse.com/GadgetVideoPodcastPlayerWeb/verification$. This tool
 % will display your video exactly in the same way as it will appear on ScienceDirect.).
-As example, an implementation of a algorithm that extimates the \emph{order of convergence} for trapezoidal integration scheme will be provided, using the automatic differentiation as support library for the function to be integrated. The result of the algorithm is the order of convergence of the integration scheme.
+As example, an implementation of a algorithm that extimates the \emph{order of convergence} for trapezoidal integration scheme will be provided, using the automatic differentiation as interface.
 
-Given a function $F(x)$, and its derivative $f(x)$, and the trapezoidal rule for the integration between the interval $[a,\,b]$:
+Given a function $f(x)$, the trapezoidal rule for primitive estimation in the interval $[a,\,b]$ is:
 \begin{equation}
-  \hat{F}(a, b, n) = \dfrac{b - a}{n} \left( \dfrac{f(a) + f(b)}{2} +
-    \sum\limits_{k = 1}^{n}{f \left( a + k \dfrac{b - a}{n} \right)} \right)
+  I_{n}(a, b) = \dfrac{b - a}{n} \left( \dfrac{f(a) + f(b)}{2} +
+    \sum\limits_{k = 1}^{n - 1}{f \left( a + k \dfrac{b - a}{n} \right)} \right)
 \end{equation}
-where $n$ is the number of the point of the mesh. The error of the approximation is:
+where $n$ mediates the step size of the integration. The error of the approximation is, when the exact primitive $F(x)$ is known:
 \begin{equation}
-  E[n] = F(b) - F(a) - \hat{F}(a, b, n)
+  E[n] = F(b) - F(a) - I_{n}(a, b)
 \end{equation}
 This error shows a direct relation:
 \begin{equation}
@@ -32,8 +32,14 @@ This error shows a direct relation:
 \end{equation}
 where $p$ is the convergence order. Using a different value for $n$, for example $2\,n$:
 \begin{equation}
-  \dfrac{E[n]}{E[2\,n]} = 2^{p} \quad \rightarrow \quad p = log_2 \left( \dfrac{E[n]}{E[2\,n]} \right)
+  \dfrac{E[n]}{E[2\,n]} \approx 2^{p} \quad \rightarrow \quad p \approx log_2 \left( \dfrac{E[n]}{E[2\,n]} \right)
 \end{equation}
+Following listings contain the implementation of the described procedure using the described gem and the well known \emph{Python} library \emph{sympy}.
 
-\lstinputlisting[style=customruby]{./scripts/test.rb}
-\lstinputlisting[style=customruby,language=python]{./scripts/test.py}
+\noindent%
+  \begin{minipage}{.5\textwidth}
+    \lstinputlisting[style=customruby,caption={Ruby version}]{./scripts/test.rb}
+  \end{minipage}\hfill
+  \begin{minipage}{.5\textwidth}
+    \lstinputlisting[style=customruby,language=python,caption={Python version},frame=tbl]{./scripts/test.py}
+  \end{minipage}

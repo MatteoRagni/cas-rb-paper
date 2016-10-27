@@ -12,23 +12,23 @@
 % using the software.
 % Provide a description of the experimental setting (how does the user use the software?).
 % Introduce related work in literature (cite or list algorithms used, other software etc.).
-\Ruby~is a purely object-oriented scripting language that allows to express several programming paradigms. It was designed in the mid-1990s by Yukihiro Matsumoto (also known as \emph{Matz}), and it is internationally standardized since 2012 as ISO/IEC 30170.
+\Ruby~is a purely object-oriented scripting language designed in the mid-1990s by Yukihiro Matsumoto (also known as \emph{Matz}). It is internationally standardized since 2012 as ISO/IEC 30170.
 
 With the advent of the \emph{Internet of Things}, a written from scratch version of the \Ruby~interpreter called \Mruby~(\emph{eMbedded Ruby}) has been published on \emph{GitHub} by Matsumoto in 2014. The new interpreter is a lightweight implementation aimed at both low power devices and personal computer that complies with the standard. \Mruby~has a completely new API, and it is designed to be embedded in a complex project as a front-end interface --- e.g.\ a numerical optimization suite may use \Mruby~to get problem input definitions.
 
-The \Ruby~code-base exposes a a large set of utilities in core and standard library. This set of tool can be furthermore expanded through libraries, also known as \emph{gems}. Even the high number of gems deployed and available, there is no library that implements a \textbf{symbolic automatic differentiation} (AD) engine that also handles some basic computer algebra routines that is cross compatible with all the different \Ruby~interpreter.
+The \Ruby~code-base exposes a a large set of utilities in core and standard library, that can be furthermore expanded through libraries, also known as \emph{gems}. Even the high number of gems deployed and available, there is no library that implements a \textbf{automatic symbolic differentiation} (ASD) engine that handles some basic computer algebra routines, that is also cross compatible with all the different \Ruby~interpreters flavours.
 
-\Ruby~has matured its fame as a web oriented language with \emph{Rails}, and can efficiently generate code in other languages. An AD-capable gem is the foundamental step to develop rapidly a specific code generator for well known software --- e.g.\ IPOPT\@.
+\Ruby~has matured its fame as a web oriented language with \emph{Rails}, and can efficiently generate code in other languages. An AD-capable gem is the foundamental step to rapidly develop a specific code generator for well known software --- e.g.\ IPOPT\@.
 
-The library that is described in this work, is a gem implemented in pure \Ruby~code and thus compatible with all interpreter that complies with the standard, that is able to perform symbolic AD and some simple computer algebra operations. In particular the library aims at:
+The library described in this work, is a gem implemented in pure \Ruby~code --- compatible with all standardized interpreters --- that is able to perform symbolic ASD and some computer algebra operations. The library aims at:
 \begin{itemize}
-  \item be an instrument for rapid development of prototype interface for numerical algorithms --- including the \Mruby~engine or exporting generated code --- that can be in different languages;
-  \item rapidly generate descriptions of mathematical models, with easy to implement workaround for numerical issues, changing on request how the code is exported, and how functions are formulated in the target language;
-  \item creating a complete open-source CAS system for the \Ruby~language, that is be compatible with all the interpreters that comply with the standard, as a long-term ambitious impact.
+  \item be an instrument for rapid development of prototype interface for numerical algorithms and exporting code generated in different target languages;
+  \item generate rapidly descriptions of mathematical models, with \emph{easy to implement} workaround for numerical issues, changing on request how the code is exported, and how expressions are formulated in the target language;
+  \item create a complete open-source CAS system for the standard \Ruby~language, as a long-term ambitious impact.
 \end{itemize}
 
-This is not the first gem that tries to implement a CAS. The available computer algebra library for \Ruby~are:
+This is not the first gem that tries to implement a CAS.\@ The available computer algebra library for \Ruby~are:
 \begin{description}
-  \item [\emph{Rucas}] gem at early stage and with discontinued developing status; it implements basic simplification routines. There is no AD method, but it is one of the milestones. The development is discontinued since 2010.
+  \item [\emph{Rucas}, \emph{Symbolic}] gems at early stage and with discontinued developing status; they implement basic simplification routines. There is no AD method, but it is one of the milestones. The development for both is currently discontinued.
   \item [\emph{Symengine}] is a wrapper for the C++ library \emph{symengine}. The back-end library is very complete, but it is compatible only with the mainstream \Ruby~interpreter. At the moment, the \emph{SciRuby} project reports the gem as broken, and removed it from its codebase. From a direct test, when performing AD of a function, the engine returns always \texttt{nil}.
 \end{description}
