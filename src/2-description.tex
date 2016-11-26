@@ -19,7 +19,7 @@
 % Give a short overview of the overall software architecture; provide a pictorial component overview
 % or similar (if possible). If necessary provide implementation details.
 
-\ragnicas~is an object oriented ASD gem that supports some computer algebra routines such as \emph{simplifications} and \emph{substitutions}. When gem is required, it automatically overloads methods of the \Fixnum~and \Float~classes, to make them compatible with the foundamental symbolic class.
+\ragnicas~is an object oriented ASD gem that supports some computer algebra routines such as \emph{simplifications} and \emph{substitutions}. When gem is required, it automatically overloads methods of \Fixnum~and \Float~classes, to make them compatible with the foundamental symbolic class.
 
 Each symbolic expression (or operation) is the instance of an object, that inherits from a common virtual ancestor: \CASOp. An operation encapsulates sub-operations recursively, building a linked graph, that is the mathematical equivalent of function composition:
 \begin{equation}
@@ -33,16 +33,16 @@ Each symbolic expression (or operation) is the instance of an object, that inher
 \caption{Example graph from the first function reported in listing~\ref{code:example-diff}}
 \end{figure}
 
-When a new operation is created, it is appended to the graph. The number of branches are determined by the parent container class of the current symbolic function. There are three possible containers. Single argument operations --- e.g. $\sin(\cdot)$ --- have as closest parent the \CASOp~class, that links to one sub-graph. Expressions with two arguments --- e.g.\ difference or exponential function --- inherit from \CASBinaryOp, that links to two subgraphs. Operations with arbitrary number of arguments --- e.g.\ sum and product --- have as parent the \CASNaryOp\footnote{Please note that this container is still at experimental stage}, that links to an arbitrary number of subgraph. Figure~\ref{fig:graph} contains an example of graph. The different kind of containers allows to introduce some properties like \emph{associativity} and \emph{commutativity}. Each container exposes the subgraphs as instance properties. Containers structure is shown in Figure~\ref{fig:uml-container}.
+When a new operation is created, it is appended to the graph. The number of branches are determined by the parent container class of the current symbolic function. There are three possible containers. Single argument operations --- e.g. $\sin(\cdot)$ --- have as closest parent the \CASOp~class, that links to one sub-graph. Expressions with two arguments --- e.g.\ difference or exponential function --- inherit from \CASBinaryOp, that links to two subgraphs. Operations with arbitrary number of arguments --- e.g.\ sum and product --- have as parent the \CASNaryOp\footnote{Please note that this container is still at experimental stage}, that links to an arbitrary number of subgraph. Figure~\ref{fig:graph} contains an example of graph. The different kind of containers allows to introduce some properties --- i.e. \emph{associativity} and \emph{commutativity} for sums and multiplications~\cite{cohen2003computer}. Each container exposes the subgraphs as instance properties. Containers interfaces and inheritances are shown in Figure~\ref{fig:uml-container}.
 
-Terminal leafes of the graph are the classes \CASConstant, \CASVariable~and \CASFunction. The first is models a simple numerical value, while the second represents an independent variable, that can be used to perform derivatives and evaluations, and the latter is a prototype of an implicit function. As for now, those leafes exemplify only real scalar expressions, with plans to define also the complex, vectorial and matricial extensions in the next major release.
+Terminal leafes of the graph are the classes \CASConstant, \CASVariable~and \CASFunction. The first models a simple numerical value, while the second represents an independent variable, that can be used to perform derivatives and evaluations, and the latter is a prototype of an implicit function. As for now, those leafes exemplify only real scalar expressions, with definition of complex, vectorial and matricial extensions as milestones for the next major release.
 
-Automatic differentiation (\CASOpdiff) crosses the graph until it reaches the ending node. The terminal node is the starting point for derivatives accumulation, the mathematical equivalent of the chain rule:
+SD (\CASOpdiff) crosses the graph until it reaches the ending node. The terminal node is the starting point for derivatives accumulation, the mathematical equivalent of the chain rule:
 \begin{equation}
 \left( f  \, \circ \, g \right)' \: = \:
 \left( f' \, \circ \, g \right) \: g'
 \end{equation}
-The recursiveness is used also for simplifications (\CASOpsimplify), substitutions (\CASOpsubs) and evaluations (\CASOpcall).
+The recursiveness is used also for simplifications (\CASOpsimplify), substitutions (\CASOpsubs), evaluations (\CASOpcall) and code generation.
 
 \begin{figure}[ht!]
 \label{fig:uml-container}
@@ -58,9 +58,13 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 \subsection{Software Functionalities}
 \label{sec:functionalities}
 
+\subsubsection{Software installation and prerequisites}
+
+Core functionalities has no dependencies. The gem can be installed through \emph{rbygems.org} provider: \texttt{gem install ragni-cas}. Functionalities must be required runtime using the Kernel method: \texttt{require 'ragni-cas'}. All methods and classes are incapsulated in the module \texttt{CAS}.
+
 \subsubsection{Basic Functionalities}
 % Present the major functionalities of the software.
-\textbf{ASD} can be performed with respect to an independent variable (\CASVariable) through forward accumulation, even for implicit functions. The differentiation is done by a method of the \CASOp, having a \CASVariable~as argument:
+\textbf{SD} can be performed with respect to an independent variable (\CASVariable) through forward accumulation, even for implicit functions. The differentiation is done by a method of the \CASOp, having a \CASVariable~as argument:
 
 \begin{lstlisting}[caption={Differentiation example},label={code:example-diff}]
 x = CAS.vars 'x'           # creates a variable
@@ -72,7 +76,9 @@ g.diff(x)                  # derivative w.r.t. x
 # => (x ^ (2 - 1) * 2) * Dg[0](x ^ 2)
 \end{lstlisting}
 
-\textbf{Simplifications} are not executed automatically, after differentiations. Each node of the graph knowns rules for simplify itself, and rules are called recursively inside the graph, exactly like ASD.\@ Simplifications that require an \emph{heuristic expansion} of the subgraph --- i.e.\ some trigonometric identities --- are not defined for now, but they can be easily achieved through \textbf{substitutions}:
+\textbf{Automatic differentiation} (AD) is implemented using dual numbers \cite{bartholomew2000automatic}, and it is included as a plugin. This differentiation strategy can be used in case oectremely complex expressions, whose explicit derivative graph may exceed the call stack depth, that is platform dependent.  
+
+\textbf{Simplifications} are not executed automatically, after differentiations. Each node of the graph knows rules for simplify itself, and rules are called recursively inside the graph, exactly like ASD.\@ Simplifications that require an \emph{heuristic expansion} of the subgraph --- i.e.\ some trigonometric identities --- are not defined for now, but they can be easily achieved through \textbf{substitutions}:
 
 \begin{lstlisting}[caption={Simplification example},label={code:example-simp}]
 x, y = CAS::vars 'x', 'y'        # creates two variables
@@ -82,7 +88,7 @@ f.simplify                       # simplify expression
 # => x
 \end{lstlisting}
 
-The graph can be numerically \textbf{evaluated} when independent variables values are provided in a feed dictionary. The graph is recursively reduced to a single numeric value:
+The graph is numerically \textbf{evaluated} when independent variables values are provided in a feed dictionary. The graph is reduced recursively to a single numeric value:
 \begin{lstlisting}[caption={Graph evaluation example},label={code:example-call}]
 x = CAS.vars 'x'          # creates a variable
 f = x ** 2 + 1             # define a symbolic expression
@@ -90,7 +96,7 @@ f.call x => 2              # evaluate for x = 2
 # => 5
 \end{lstlisting}
 
-Symbolic functions can be used to create comparative expressions --- e.g. $f(\cdot) \geq g(\cdot)$ --- or piecewise functions --- e.g. $\max(f(\cdot), g(\cdot))$:
+Symbolic expressions can be used to create comparative expressions --- e.g. $f(\cdot) \geq g(\cdot)$ --- or piecewise functions --- e.g. $\max(f(\cdot), g(\cdot))$:
 \begin{lstlisting}[caption={Expressions and Piecewise functions},label={code:example-expr}]
 x, y = CAS.vars 'x', 'y'
 f = CAS.declare :f, x
@@ -135,7 +141,7 @@ x = CAS.vars 'x'
 # => Math.sin(x)
 \end{lstlisting}
 
-Included plugins may implement some advanced features such as code optimization and generation of libraries: this is an example with the \emph{C} plugin:
+Some plugins implement advanced features such as code optimization and generation of libraries: this is an example with the \emph{C} plugin:
 
 \begin{lstlisting}[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]
 require 'ragni-cas/c-opt'

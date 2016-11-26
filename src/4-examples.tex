@@ -15,14 +15,14 @@
 % submission please test and validate your .mp4 file at
 % $ http://elsevier-apps.sciverse.com/GadgetVideoPodcastPlayerWeb/verification$. This tool
 % will display your video exactly in the same way as it will appear on ScienceDirect.).
-As example, an implementation of a algorithm that extimates the \emph{order of convergence} for trapezoidal integration scheme will be provided, using the automatic differentiation as interface.
+As example, an implementation of an algorithm that extimates the \emph{order of convergence} for trapezoidal integration scheme \cite{weideman2002numerical} is provided, using the automatic differentiation as interface.
 
 Given a function $f(x)$, the trapezoidal rule for primitive estimation in the interval $[a,\,b]$ is:
 \begin{equation}
   I_{n}(a, b) = \dfrac{b - a}{n} \left( \dfrac{f(a) + f(b)}{2} +
     \sum\limits_{k = 1}^{n - 1}{f \left( a + k \dfrac{b - a}{n} \right)} \right)
 \end{equation}
-where $n$ mediates the step size of the integration. The error of the approximation is, when the exact primitive $F(x)$ is known:
+where $n$ mediates the integration's step size. When exact primitive $F(x)$ is known, approximation error is:
 \begin{equation}
   E[n] = F(b) - F(a) - I_{n}(a, b)
 \end{equation}
@@ -34,7 +34,7 @@ where $p$ is the convergence order. Using a different value for $n$, for example
 \begin{equation}
   \dfrac{E[n]}{E[2\,n]} \approx 2^{p} \quad \rightarrow \quad p \approx log_2 \left( \dfrac{E[n]}{E[2\,n]} \right)
 \end{equation}
-Following listings contain the implementation of the described procedure using the described gem and the well known \emph{Python} library \emph{sympy}.
+Following listings contain the implementation of the described procedure using the described gem and the well known \emph{Python} \cite{van2011python} library \emph{sympy} \cite{christopher_smith_2016_47274}.
 
 \noindent%
   \begin{minipage}{.5\textwidth}

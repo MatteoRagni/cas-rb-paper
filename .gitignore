@@ -7,3 +7,4 @@
 *.out
 *.spl
 *.synctex*
+.vscode*
