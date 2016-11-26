@@ -10,17 +10,15 @@
 This example shows how to export a C library using the \texttt{CAS} module as design interface. \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
 
 In this example we create a library \texttt{example} that implements the model:
-
 \begin{equation}
-f(x, y) = x^y + g(x)\, \mathrm{log}(\sin(x^y))
+f(x, y) = x^y + g(x)\, \log(\sin(x^y))
 \end{equation}
-
 Expression $g(x)$ is implemented as \texttt{g\_impl} and its interface is described in the external header \texttt{g\_impl.h}. The code must be optimized: the intermediate operation $x^y$ should be evaluated once, even if required twice in our model. The C function that implements our model $f(x,y)$ should be called with the token \texttt{f\_impl}. The exporter uses as default type, for variables and function returned values, \texttt{double}.
 
 \begin{lstlisting}[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]
 require 'ragni-cas/c-opt'
 
-# Models
+# Model
 x, y = CAS.vars :x, :y
 g = CAS.declare :g, x
 
@@ -44,8 +42,54 @@ Library created by class \texttt{CLib} contains the following code:
     \lstinputlisting[style=customruby,language=C,caption={C Source},frame=tbl]{./scripts/source.c}
   \end{minipage}
 
+The function $g(x)$ contains the following operation:
+\begin{equation}
+g(x) = (\sqrt{x + a} - \sqrt{a}) + \sqrt{\pi + x}
+\end{equation}
+that is a function that may suffer from catastrophic cancellation~\cite{higham2002accuracy}. If a user wants to specialize code generation
+rules for this particular expression, conditioned through rationalization\footnote{i.e.: $\sqrt{x + a} - \sqrt{a} = \dfrac{a}{\sqrt{x + a} + \sqrt{a}}$}. We want also to extend this strategy to all differences of square roots. For more insight about \texttt{\_\_to\_c} and \texttt{\_\_to\_c\_impl} please refer to the software manual.
+
+\noindent%
+\begin{lstlisting}[caption={Conditioning in exporting function},label={code:example-exporting-C-2}]
+# Model
+a = CAS.declare "PARAM_A"
+
+g = (CAS.sqrt(x + a) - CAS.sqrt(x)) + CAS.sqrt(CAS::Pi + x)
+
+# Particular Code Generation for difference between square roots.
+module CAS
+  class Diff
+    alias :__to_c_impl_old :__to_c_impl
+
+    def __to_c_impl(v)
+      if @x.is_a? CAS::Sqrt and @y.is_a? CAS::Sqrt
+        "(#{@x.x.__to_c(v)} + #{@y.x.__to_c(v)}) / " +
+        "( #{@x.__to_c(v)} + #{@y.__to_c(v)} )"
+      else
+        self.__to_c_impl_old(v)
+      end
+    end
+  end
+end
+
+clib = CAS::CLib.create "g_impl" do
+  define "PARAM_A()", 1.0   # Arbitrary value for PARAM_A
+  define "M_PI", Math::Pi
+  implements_as "g_impl", g
+end
+\end{lstlisting}
+It should be noted the \textbf{separation between the model} --- that does not contain conditioning --- \textbf{and the code generation rule} --- that overloads for this particular case and this particular language the normal exportation rule. The result of listing~\ref{code:example-exporting-C-2} is reported:
+
+\noindent%
+  \begin{minipage}{.5\textwidth}
+    \lstinputlisting[style=customruby,language=C,caption={\texttt{g\_impl} Header}]{./scripts/g_impl.h}
+  \end{minipage}\hfill
+  \begin{minipage}{.5\textwidth}
+    \lstinputlisting[style=customruby,language=C,caption={\texttt{g\_impl} Source},frame=tbl]{./scripts/g_impl.c}
+  \end{minipage}
+
 \subsection{Using the module as interface}
-As example, an implementation of an algorithm that extimates the \emph{order of convergence} for trapezoidal integration scheme \cite{weideman2002numerical} is provided, using the automatic differentiation as interface.
+As example, an implementation of an algorithm that extimates the \emph{order of convergence} for trapezoidal integration scheme \cite{weideman2002numerical} is provided, using the symbolic differentiation as interface.
 
 Given a function $f(x)$, the trapezoidal rule for primitive estimation in the interval $[a,\,b]$ is:
 \begin{equation}

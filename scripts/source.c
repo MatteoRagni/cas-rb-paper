@@ -2,6 +2,7 @@
 
 #include "example.h"
 
+
 double f_impl(double x, double y) {
   double __t_0 = pow(x, y);
   double __t_1 = g_impl(x);
@@ -14,8 +15,3 @@ double f_impl(double x, double y) {
 }
 
 // end of example.c
-
-
-
-
-;
