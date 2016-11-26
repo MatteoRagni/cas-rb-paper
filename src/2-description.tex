@@ -66,20 +66,22 @@ Core functionalities has no dependencies. The gem can be installed through \emph
 % Present the major functionalities of the software.
 \textbf{SD} can be performed with respect to an independent variable (\CASVariable) through forward accumulation, even for implicit functions. The differentiation is done by a method of the \CASOp, having a \CASVariable~as argument:
 
+\noindent%
 \begin{lstlisting}[caption={Differentiation example},label={code:example-diff}]
-x = CAS.vars 'x'           # creates a variable
-f = x ** 2 + 1             # define a symbolic expression
-f.diff(x)                  # derivative w.r.t. x
-# => 2 * x ^ (2 - 1) + 0
+z = CAS.vars 'z'           # creates a variable
+f = z ** 2 + 1             # define a symbolic expression
+f.diff(z)                  # derivative w.r.t. z
+# => 2 * z ^ (2 - 1) + 0
 g = CAS.declare :g, f      # creates implicit expression
-g.diff(x)                  # derivative w.r.t. x
-# => (x ^ (2 - 1) * 2) * Dg[0](x ^ 2)
+g.diff(z)                  # derivative w.r.t. z
+# => (z ^ (2 - 1) * 2) * Dg[0](z ^ 2)
 \end{lstlisting}
 
-\textbf{Automatic differentiation} (AD) is implemented using dual numbers \cite{bartholomew2000automatic}, and it is included as a plugin. This differentiation strategy can be used in case oectremely complex expressions, whose explicit derivative graph may exceed the call stack depth, that is platform dependent.  
+\textbf{Automatic differentiation} (AD) is implemented using dual numbers \cite{bartholomew2000automatic}, and it is included as a plugin. This differentiation strategy can be used in case oectremely complex expressions, whose explicit derivative graph may exceed the call stack depth, that is platform dependent.
 
 \textbf{Simplifications} are not executed automatically, after differentiations. Each node of the graph knows rules for simplify itself, and rules are called recursively inside the graph, exactly like ASD.\@ Simplifications that require an \emph{heuristic expansion} of the subgraph --- i.e.\ some trigonometric identities --- are not defined for now, but they can be easily achieved through \textbf{substitutions}:
 
+\noindent%
 \begin{lstlisting}[caption={Simplification example},label={code:example-simp}]
 x, y = CAS::vars 'x', 'y'        # creates two variables
 f = CAS.log( CAS.sin( y ) )      # symbolic expression
@@ -89,6 +91,8 @@ f.simplify                       # simplify expression
 \end{lstlisting}
 
 The graph is numerically \textbf{evaluated} when independent variables values are provided in a feed dictionary. The graph is reduced recursively to a single numeric value:
+
+\noindent%
 \begin{lstlisting}[caption={Graph evaluation example},label={code:example-call}]
 x = CAS.vars 'x'          # creates a variable
 f = x ** 2 + 1             # define a symbolic expression
@@ -97,6 +101,8 @@ f.call x => 2              # evaluate for x = 2
 \end{lstlisting}
 
 Symbolic expressions can be used to create comparative expressions --- e.g. $f(\cdot) \geq g(\cdot)$ --- or piecewise functions --- e.g. $\max(f(\cdot), g(\cdot))$:
+
+\noindent%
 \begin{lstlisting}[caption={Expressions and Piecewise functions},label={code:example-expr}]
 x, y = CAS.vars 'x', 'y'
 f = CAS.declare :f, x
@@ -111,6 +117,8 @@ Comparative expression are stored in a special container classes, modeled by the
 \subsubsection{Metaprogramming and Code-Generation}
 
 The library is developed explicitly for \textbf{generation of code} for a target language, and \textbf{meta\-programming}. Expressions, once manipulated, can be exported as plain source code or used as a prototype for a callable \emph{closure} (\texttt{Proc} object):
+
+\noindent%
 \begin{lstlisting}[caption={Graph evaluation example},label={code:example-proc}]
 x = CAS::vars 'x'             # creates a variable
 f = CAS::log(CAS::sin(x))     # define a symbolic function
@@ -122,6 +130,8 @@ proc.call 'x' => Math::PI/2
 Composing a closure of a graph is like making its snapshot, thus any further manipulation to the expression do not update the callable object. This drawback is balanced by the faster execution time of a \texttt{Proc}: when a graph needs only to be evaluated in a iterative algorithm, and not to be manipulated, transforming it in a \emph{closure} reduces the execution time per iteration.
 
 Code generation should be flexible enough to export a graph in a user's target language. Generation methods for common languages are included in specific plugins. Users can furthemore expand exporting capabilites by writing specific exportation rules,  overriding method for existing plugin, or desining their own exporter:
+
+\noindent%
 \begin{lstlisting}[caption={Example of Ruby exportation plugin},label={code:example-exporting}]
 # Definition
 module CAS
@@ -139,41 +149,4 @@ end
 x = CAS.vars 'x'
 (CAS.sin(x)).to_ruby
 # => Math.sin(x)
-\end{lstlisting}
-
-Some plugins implement advanced features such as code optimization and generation of libraries: this is an example with the \emph{C} plugin:
-
-\begin{lstlisting}[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]
-require 'ragni-cas/c-opt'
-
-x, y = CAS.vars :x, :y
-g = CAS.declare :g, x
-
-g.cname = 'g_impl'
-f = x ** y + g * CAS.log(CAS.sin(x ** y))
-
-CLib.create "example" do
-  include_local "g_impl"
-  implements_as "f_impl", f
-  implements_as "my_pow", (x ** y)
-end
-\end{lstlisting}
-library created contains the following source (header is omitted for brevity):
-\begin{lstlisting}[caption={Calling optimized-C exporter},label={code:example-exporting-C-2},language=C]
-  [[[[[ TODO Must be written again ]]]]]
-  [[[[[ ADD header                 ]]]]]
-  // Source file for library: example.c
-
-  #include "example.h"
-
-  double func(double x, double y) {
-    double __t_0 = pow(x, y);
-    double __t_1 = sin(__t_0);
-    double __t_2 = log(__t_1);
-    double __t_3 = (__t_0 + __t_2);
-
-    return __t_3;
-  }
-
-  // end of example.c
 \end{lstlisting}

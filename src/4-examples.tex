@@ -6,15 +6,45 @@
 \section{Illustrative Examples}
 \label{sec:examples}
 
-% Provide at least one illustrative example to demonstrate the major functions.
+\subsection{Code Generation as C Library}
+This example shows how to export a C library using the \texttt{CAS} module as design interface. \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
 
-% Optional: you may include one explanatory video that will appear next to your article,
-% in the right hand side panel. (Please upload any video as a single supplementary file with
-% your article. Only one MP4 formatted, with 50MB maximum size, video is possible per article.
-% Recommended video dimensions are 640 x 480 at a maximum of 30 frames/second. Prior to
-% submission please test and validate your .mp4 file at
-% $ http://elsevier-apps.sciverse.com/GadgetVideoPodcastPlayerWeb/verification$. This tool
-% will display your video exactly in the same way as it will appear on ScienceDirect.).
+In this example we create a library \texttt{example} that implements the model:
+
+\begin{equation}
+f(x, y) = x^y + g(x)\, \mathrm{log}(\sin(x^y))
+\end{equation}
+
+Expression $g(x)$ is implemented as \texttt{g\_impl} and its interface is described in the external header \texttt{g\_impl.h}. The code must be optimized: the intermediate operation $x^y$ should be evaluated once, even if required twice in our model. The C function that implements our model $f(x,y)$ should be called with the token \texttt{f\_impl}. The exporter uses as default type, for variables and function returned values, \texttt{double}.
+
+\begin{lstlisting}[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]
+require 'ragni-cas/c-opt'
+
+# Models
+x, y = CAS.vars :x, :y
+g = CAS.declare :g, x
+
+f = x ** y + g * CAS.log(CAS.sin(x ** y))
+
+# Code Generation
+g.c_name = 'g_impl'             # g token
+
+CAS::CLib.create "example" do
+  include_local "g_impl"        # g header
+  implements_as "f_impl", f     # token for f
+end
+\end{lstlisting}
+Library created by class \texttt{CLib} contains the following code:
+
+\noindent%
+  \begin{minipage}{.5\textwidth}
+    \lstinputlisting[style=customruby,language=C,caption={C Header}]{./scripts/source.h}
+  \end{minipage}\hfill
+  \begin{minipage}{.5\textwidth}
+    \lstinputlisting[style=customruby,language=C,caption={C Source},frame=tbl]{./scripts/source.c}
+  \end{minipage}
+
+\subsection{Using the module as interface}
 As example, an implementation of an algorithm that extimates the \emph{order of convergence} for trapezoidal integration scheme \cite{weideman2002numerical} is provided, using the automatic differentiation as interface.
 
 Given a function $f(x)$, the trapezoidal rule for primitive estimation in the interval $[a,\,b]$ is:
