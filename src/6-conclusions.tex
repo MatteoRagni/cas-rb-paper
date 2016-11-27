@@ -1,3 +1,5 @@
+% !TEX root = Ragni2016.tex
+
 %   ___             _         _
 %  / __|___ _ _  __| |_  _ __(_)___ _ _  ___
 % | (__/ _ \ ' \/ _| | || (_-< / _ \ ' \(_-<
@@ -6,3 +8,15 @@
 \label{sec:conclusions}
 
 % Set out the conclusion of this original software publication.
+This work presents a pure \Ruby~library that implements a minimalistics CAS with
+automatic and symbolic differentiation that is aimed at code generation or metaprogramming.
+The library is still at an early developing stage, but with promising feature, some of them
+shown in section~\ref{sec:examples}. This is the only gem that implements
+such a functionality for this language.
+
+Language features allows to use library as an interface, simplifying model definition
+for numerical algorithms. All core functionalities and basic math are defined, with the plan to expand
+capabilities furthemore as milestones for next major releases. Reopening a class guarantees a
+\emph{liquid} library 
+
+Library is published in repository \emph{rubygems.org} and versioned on \emph{github.com}. It can be included easily in projects and in inline interpreter, or installed as a standalone gem.
