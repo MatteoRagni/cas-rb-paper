@@ -17,24 +17,8 @@ f(x, y) = x^y + g(x)\, \log(\sin(x^y))
 \end{equation}
 Expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, and its interface is described in \texttt{g\_impl.h} header. The code is optimized: the intermediate operation $x^y$ is evaluated once, even if appears twice in our model. The C function that implements our model $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values.
 
-\begin{lstlisting}[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]
-require 'ragni-cas/c-opt'
-
-# Model
-x, y = CAS.vars :x, :y
-g = CAS.declare :g, x
-
-f = x ** y + g * CAS.log(CAS.sin(x ** y))
-
-# Code Generation
-g.c_name = 'g_impl'             # g token
-
-CAS::CLib.create "example" do
-  include_local "g_impl"        # g header
-  implements_as "f_impl", f     # token for f
-end
-\end{lstlisting}
-Library created by class \texttt{CLib} contains the following code:
+\begin{lstlisting}[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]{./scripts/example_01.rb}
+Library created by \texttt{CLib} contains the following code:
 
 \noindent%
   \begin{minipage}{.5\textwidth}
@@ -55,34 +39,8 @@ $\sqrt{\phi(\cdot)} - \sqrt{\psi(\cdot)} =
 For more insight about \texttt{\_\_to\_c} and \texttt{\_\_to\_c\_impl} please refer to the software manual.
 
 \noindent%
-\begin{lstlisting}[caption={Conditioning in exporting function},label={code:example-exporting-C-2}]
-# Model
-a = CAS.declare "PARAM_A"
+\lstinputlisting[caption={Conditioning in exporting function},label={code:example-exporting-C-2}]{./script/example_02.rb}
 
-g = (CAS.sqrt(x + a) - CAS.sqrt(x)) + CAS.sqrt(CAS::Pi + x)
-
-# Particular Code Generation for difference between square roots.
-module CAS
-  class Diff
-    alias :__to_c_impl_old :__to_c_impl
-
-    def __to_c_impl(v)
-      if @x.is_a? CAS::Sqrt and @y.is_a? CAS::Sqrt
-        "(#{@x.x.__to_c(v)} + #{@y.x.__to_c(v)}) / " +
-        "( #{@x.__to_c(v)} + #{@y.__to_c(v)} )"
-      else
-        self.__to_c_impl_old(v)
-      end
-    end
-  end
-end
-
-clib = CAS::CLib.create "g_impl" do
-  define "PARAM_A()", 1.0   # Arbitrary value for PARAM_A
-  define "M_PI", Math::Pi
-  implements_as "g_impl", g
-end
-\end{lstlisting}
 It should be noted the \textbf{separation between the model} --- that does not contain conditioning --- \textbf{and the code generation rule} --- that overloads, for this particular case and this particular language, the predefined code generation rule. Obviously, a user can decide to apply directly the conditioning on the model. The result of listing~\ref{code:example-exporting-C-2} is reported:
 
 \noindent%
@@ -117,8 +75,8 @@ Following listings contain the implementation of the described procedure using t
 
 \noindent%
   \begin{minipage}{.5\textwidth}
-    \lstinputlisting[style=customruby,caption={Ruby version}]{./scripts/test.rb}
+    \lstinputlisting[style=customruby,caption={Ruby version}]{./scripts/example_03.rb}
   \end{minipage}\hfill
   \begin{minipage}{.5\textwidth}
-    \lstinputlisting[style=customruby,language=python,caption={Python version},frame=tbl]{./scripts/test.py}
+    \lstinputlisting[style=customruby,language=python,caption={Python version},frame=tbl]{./scripts/example_03.py}
   \end{minipage}
