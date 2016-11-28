@@ -114,7 +114,7 @@ f.greater_equal g
 CAS::max f, g
 # => ((f(x) >= g(x, y)) ? f(x) : g(x, y))
 \end{lstlisting}
-Comparative expression are stored in a special container classes, modeled by the ancestor \CASExpression.
+Comparative expression are stored in special container classes, modeled by the ancestor \CASExpression.
 
 \subsubsection{Metaprogramming and Code-Generation}
 
@@ -129,12 +129,12 @@ proc = f.as_proc              # exports callable lambda
 proc.call 'x' => Math::PI/2
 # => 0.0
 \end{lstlisting}
-Composing a closure of a graph is like making its snapshot, thus any further manipulation to the expression do not update the callable object. This drawback is balanced by the faster execution time of a \texttt{Proc}: when a graph needs only to be evaluated in a iterative algorithm, and not to be manipulated, transforming it in a \emph{closure} reduces the execution time per iteration.
+Compiling a closure of a graph is like making its snapshot, thus any further manipulation of the expression do not update the callable object. This drawback is balanced by the faster execution time of a \texttt{Proc}: when a graph needs only to be evaluated in a iterative algorithm, and not to be manipulated, transforming it in a \emph{closure} reduces the execution time per iteration.
 
-Code generation should be flexible enough to export a graph in a user's target language. Generation methods for common languages are included in specific plugins. Users can furthemore expand exporting capabilites by writing specific exportation rules,  overriding method for existing plugin, or desining their own exporter:
+Code generation should be flexible enough to export a graph in a user's target language. Generation methods for common languages are included in specific \textbf{plugins}. Users can furthemore expand exporting capabilites by writing specific exportation rules,  overriding method for existing plugin, or desining their own exporter:
 
 \noindent%
-\begin{lstlisting}[caption={Example of Ruby exportation plugin},label={code:example-exporting}]
+\begin{lstlisting}[caption={Example of Ruby code generation plugin},label={code:example-exporting}]
 # Definition
 module CAS
   {
