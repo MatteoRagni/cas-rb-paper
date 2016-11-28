@@ -79,24 +79,24 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 The tree is numerically \textbf{evaluated} when independent variables values are provided in a feed dictionary. The graph is reduced recursively to a single numeric value:
 
 \noindent%
-\lstinputlisting[caption={Tree evaluation example},label={code:example-call}]{./script/listing_03.rb}
+\lstinputlisting[caption={Tree evaluation example},label={code:example-call}]{./scripts/listing_03.rb}
 
 
 Symbolic expressions can be used to create comparative expressions, that are stored in special container classes, modeled by the ancestor \CASExpression~--- e.g. $f(\cdot) \geq g(\cdot)$. This allow the definition of piecewise functions --- e.g. $\max(f(\cdot), g(\cdot))$.
 
 \noindent%
-\lstinputlisting[caption={Expressions and Piecewise functions},label={code:example-expr}]{./script/listing_04.rb}
+\lstinputlisting[caption={Expressions and Piecewise functions},label={code:example-expr}]{./scripts/listing_04.rb}
 
 \subsubsection{Metaprogramming and Code-Generation}
 
 The library is developed explicitly for \textbf{meta\-programming} and \textbf{generation of code}. Expressions can be exported as source code or used as prototypes for callable \emph{closures} (\texttt{Proc} objects):
 
 \noindent%
-\lstinputlisting[caption={Graph evaluation example},label={code:example-proc}]{./script/listing_05.rb}
+\lstinputlisting[caption={Graph evaluation example},label={code:example-proc}]{./scripts/listing_05.rb}
 
 Compiling a closure of a tree is like making its snapshot, thus any further manipulation of the expression do not update the callable object. This drawback is balanced by the faster execution time of a \texttt{Proc}: when a graph needs \emph{only to be evaluated} in a iterative algorithm, transforming it in a \emph{closure} reduces the execution time per iteration.
 
 Code generation should be flexible enough to export expressions' trees in a user's target language. Generation methods for common languages are included in specific \textbf{plugins}. Users can furthemore expand exporting capabilites by writing specific exportation rules,  overriding method for existing plugin, or desining their own exporter:
 
 \noindent%
-\lstinputlisting[caption={Example of Ruby code generation plugin},label={code:example-exporting}]{./script/listing_06.rb}
+\lstinputlisting[caption={Example of Ruby code generation plugin},label={code:example-exporting}]{./scripts/listing_06.rb}

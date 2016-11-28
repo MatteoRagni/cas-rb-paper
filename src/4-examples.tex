@@ -17,7 +17,7 @@ f(x, y) = x^y + g(x)\, \log(\sin(x^y))
 \end{equation}
 Expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, and its interface is described in \texttt{g\_impl.h} header. The code is optimized: the intermediate operation $x^y$ is evaluated once, even if appears twice in our model. The C function that implements our model $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values.
 
-\begin{lstlisting}[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]{./scripts/example_01.rb}
+\lstinputlisting[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]{./scripts/example_01.rb}
 Library created by \texttt{CLib} contains the following code:
 
 \noindent%
@@ -39,7 +39,7 @@ $\sqrt{\phi(\cdot)} - \sqrt{\psi(\cdot)} =
 For more insight about \texttt{\_\_to\_c} and \texttt{\_\_to\_c\_impl} please refer to the software manual.
 
 \noindent%
-\lstinputlisting[caption={Conditioning in exporting function},label={code:example-exporting-C-2}]{./script/example_02.rb}
+\lstinputlisting[caption={Conditioning in exporting function},label={code:example-exporting-C-2}]{./scripts/example_02.rb}
 
 It should be noted the \textbf{separation between the model} --- that does not contain conditioning --- \textbf{and the code generation rule} --- that overloads, for this particular case and this particular language, the predefined code generation rule. Obviously, a user can decide to apply directly the conditioning on the model. The result of listing~\ref{code:example-exporting-C-2} is reported:
 
