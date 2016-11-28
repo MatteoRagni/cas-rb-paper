@@ -17,7 +17,9 @@ f(x, y) = x^y + g(x)\, \log(\sin(x^y))
 \end{equation}
 Expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, and its interface is described in \texttt{g\_impl.h} header. The code is optimized: the intermediate operation $x^y$ is evaluated once, even if appears twice in our model. The C function that implements our model $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values.
 
+\noindent%
 \lstinputlisting[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]{./scripts/example_01.rb}
+
 Library created by \texttt{CLib} contains the following code:
 
 \noindent%
@@ -36,7 +38,7 @@ and may suffer from \emph{catastrophic cancellation}~\cite{higham2002accuracy}. 
 \footnote{i.e.:
 $\sqrt{\phi(\cdot)} - \sqrt{\psi(\cdot)} =
 \dfrac{\phi(\cdot) - \psi(\cdot)}{\sqrt{\phi(\cdot)} + \sqrt{\psi(\cdot)}}$}.
-For more insight about \texttt{\_\_to\_c} and \texttt{\_\_to\_c\_impl} please refer to the software manual.
+For more insight about \verb!__to_c! and \verb!__to_c_impl! please refer to the software manual.
 
 \noindent%
 \lstinputlisting[caption={Conditioning in exporting function},label={code:example-exporting-C-2}]{./scripts/example_02.rb}
@@ -52,7 +54,7 @@ It should be noted the \textbf{separation between the model} --- that does not c
   \end{minipage}
 
 \subsection{Using the module as interface}
-As example, an implementation of an algorithm that extimates the \emph{order of convergence} for trapezoidal integration scheme \cite{weideman2002numerical} is provided, using the symbolic differentiation as interface.
+As example, an implementation of an algorithm that extimates the \emph{order of convergence} for trapezoidal integration scheme~\cite{weideman2002numerical} is provided, using the symbolic differentiation as interface.
 
 Given a function $f(x)$, the trapezoidal rule for primitive estimation in the interval $[a,\,b]$ is:
 \begin{equation}
@@ -69,9 +71,9 @@ This error shows a direct relation:
 \end{equation}
 where $p$ is the convergence order. Using a different value for $n$, for example $2\,n$:
 \begin{equation}
-  \dfrac{E[n]}{E[2\,n]} \approx 2^{p} \quad \rightarrow \quad p \approx log_2 \left( \dfrac{E[n]}{E[2\,n]} \right)
+  \dfrac{E[n]}{E[2\,n]} \approx 2^{p} \quad \rightarrow \quad p \approx \log_2 \left( \dfrac{E[n]}{E[2\,n]} \right)
 \end{equation}
-Following listings contain the implementation of the described procedure using the described gem and the well known \emph{Python} \cite{van2011python} library \emph{sympy} \cite{christopher_smith_2016_47274}.
+Following listings contain the implementation of the described procedure using the described gem and the well known \emph{Python}~\cite{van2011python} library \emph{SymPy}~\cite{christopher_smith_2016_47274}.
 
 \noindent%
   \begin{minipage}{.5\textwidth}
