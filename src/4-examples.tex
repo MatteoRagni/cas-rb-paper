@@ -9,13 +9,13 @@
 \label{sec:examples}
 
 \subsection{Code Generation as C Library}
-This example shows how to export a C library using the \texttt{CAS} module as design interface. \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
+TIn this example a model is exported as C library. \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
 
-In this example we create a library \texttt{example} that implements the model:
+The library \texttt{example} implements the model:
 \begin{equation}
 f(x, y) = x^y + g(x)\, \log(\sin(x^y))
 \end{equation}
-Expression $g(x)$ is implemented in an external object, declared as \texttt{g\_impl} and its interface is described in \texttt{g\_impl.h} header. The code is optimized: the intermediate operation $x^y$ should be evaluated once, even if required twice in our model. The C function that implements our model $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type, for variables and function returned values, \texttt{double}.
+Expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, and its interface is described in \texttt{g\_impl.h} header. The code is optimized: the intermediate operation $x^y$ is evaluated once, even if appears twice in our model. The C function that implements our model $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values.
 
 \begin{lstlisting}[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]
 require 'ragni-cas/c-opt'
@@ -44,11 +44,15 @@ Library created by class \texttt{CLib} contains the following code:
     \lstinputlisting[style=customruby,language=C,caption={C Source},frame=tbl]{./scripts/source.c}
   \end{minipage}
 
-The function $g(x)$ contains the following operation:
+The function $g(x)$ models the following operation:
 \begin{equation}
 g(x) = (\sqrt{x + a} - \sqrt{x}) + \sqrt{\pi + x}
 \end{equation}
-that is a function that may suffer from catastrophic cancellation~\cite{higham2002accuracy}. Users may decide to specialize code generation rules for this particular expression, conditioned through rationalization\footnote{i.e.: $\sqrt{x + a} - \sqrt{x} = \dfrac{a}{\sqrt{x + a} + \sqrt{x}}$}. Instead of modifying the model $g(x)$, in listing \ref{code:example-exporting-C-2}, this strategy is extended to all differences of square roots. For more insight about \texttt{\_\_to\_c} and \texttt{\_\_to\_c\_impl} please refer to the software manual.
+and may suffer from \emph{catastrophic cancellation}~\cite{higham2002accuracy}. Users can specialize code generation rules for this particular expression, conditioned through rationalization and instead of modifying the model $g(x)$, in listing~\ref{code:example-exporting-C-2}, the rationalization is extended to all differences of square roots
+\footnote{i.e.:
+$\sqrt{\phi(\cdot)} - \sqrt{\psi(\cdot)} =
+\dfrac{\phi(\cdot) - \psi(\cdot)}{\sqrt{\phi(\cdot)} + \sqrt{\psi(\cdot)}}$}.
+For more insight about \texttt{\_\_to\_c} and \texttt{\_\_to\_c\_impl} please refer to the software manual.
 
 \noindent%
 \begin{lstlisting}[caption={Conditioning in exporting function},label={code:example-exporting-C-2}]
@@ -79,7 +83,7 @@ clib = CAS::CLib.create "g_impl" do
   implements_as "g_impl", g
 end
 \end{lstlisting}
-It should be noted the \textbf{separation between the model} --- that does not contain conditioning --- \textbf{and the code generation rule} --- that overloads for this particular case and this particular language the predefined code generation rule. The result of listing~\ref{code:example-exporting-C-2} is reported:
+It should be noted the \textbf{separation between the model} --- that does not contain conditioning --- \textbf{and the code generation rule} --- that overloads, for this particular case and this particular language, the predefined code generation rule. Obviously, a user can decide to apply directly the conditioning on the model. The result of listing~\ref{code:example-exporting-C-2} is reported:
 
 \noindent%
   \begin{minipage}{.5\textwidth}
@@ -94,10 +98,10 @@ As example, an implementation of an algorithm that extimates the \emph{order of 
 
 Given a function $f(x)$, the trapezoidal rule for primitive estimation in the interval $[a,\,b]$ is:
 \begin{equation}
-  I_{n}(a, b) = \dfrac{b - a}{n} \left( \dfrac{f(a) + f(b)}{2} +
-    \sum\limits_{k = 1}^{n - 1}{f \left( a + k \dfrac{b - a}{n} \right)} \right)
+  I_{n}(a, b) = h\, \left( \dfrac{f(a) + f(b)}{2} +
+    \sum\limits_{k = 1}^{n - 1}{f \left( a + k \,h \right)} \right)
 \end{equation}
-where $n$ mediates the integration's step size. When exact primitive $F(x)$ is known, approximation error is:
+with $h = (b - a) / n $, where $n$ mediates the integration's step size. When exact primitive $F(x)$ is known, approximation error is:
 \begin{equation}
   E[n] = F(b) - F(a) - I_{n}(a, b)
 \end{equation}

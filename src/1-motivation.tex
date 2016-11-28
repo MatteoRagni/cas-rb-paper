@@ -14,24 +14,24 @@
 % using the software.
 % Provide a description of the experimental setting (how does the user use the software?).
 % Introduce related work in literature (cite or list algorithms used, other software etc.).
-\Ruby \cite{flanagan2008ruby}~is a purely object-oriented scripting language designed in the mid-1990s by Yukihiro Matsumoto (also known as \emph{Matz}). It is internationally standardized since 2012 as ISO/IEC 30170.
+\Ruby~\cite{flanagan2008ruby}~is a purely object-oriented scripting language designed in the mid-1990s by Yukihiro Matsumoto (also known as \emph{Matz}), internationally standardized since 2012 as ISO/IEC 30170.
 
-With the advent of the \emph{Internet of Things}, a written from scratch version of the \Ruby~interpreter called \Mruby~(\emph{eMbedded Ruby}) \cite{tanaka2015mruby} has been published on \emph{GitHub} by Matsumoto, in 2014. The new interpreter is a lightweight implementation aimed at both low power devices and personal computer that complies with the standard\cite{iso30170}. \Mruby~has a completely new API, and it is designed to be embedded in complex projects as a front-end interface --- e.g.\ a numerical optimization suite may use \Mruby~to get problem input definitions.
+With the advent of the \emph{Internet of Things}, a written from scratch version of the \Ruby~interpreter called \Mruby~(\emph{eMbedded Ruby})~\cite{tanaka2015mruby} has been published on \emph{GitHub} by Matsumoto, in 2014. The new interpreter is a lightweight implementation, aimed at both low power devices and PC, and complies with the standard\cite{iso30170}. \Mruby~has a completely new API, and it is designed to be embedded in complex projects as a front-end interface --- e.g.\ a numerical optimization suite may use \Mruby~to get problem input definitions.
 
-The \Ruby~code-base exposes a large set of utilities in core and standard library, that can be furthermore expanded through modules, contained in \emph{gems}. Even if a high number of gems are deployed and available, there is no module that implements a \textbf{automatic symbolic differentiation} (ASD) \cite{tolsma1998computational} engine that handles some basic computer algebra routines, compatible with all different \Ruby~interpreters flavours.
+The \Ruby~code-base exposes a large set of utilities in core and standard library, that can be furthermore expanded through modules, contained in \emph{gems}. Even if a high number of gems are deployed and available, there is no module that implements an \textbf{automatic symbolic differentiation} (ASD)~\cite{tolsma1998computational} engine that handles basic computer algebra routines, compatible with all different \Ruby~interpreters flavours.
 
-\Ruby~has matured its fame as a web oriented language with \emph{Rails}, and can efficiently generate code in other languages. An ASD-capable gem is the foundamental step to rapidly develop a specific code generator for well known software --- e.g.\ IPOPT \cite{wachter2009ipopt}\@.
+\Ruby~has matured its fame as a web oriented language with \emph{Rails}, and can efficiently generate code in other languages. An ASD-capable gem is the foundamental step to rapidly develop specific code generators for well known software --- e.g.\ IPOPT~\cite{wachter2009ipopt}\@.
 
-The library described in this work, is a gem implemented in pure \Ruby~code --- compatible with all standardized interpreters --- that is able to perform symbolic differentiation (SD) and some computer algebra operations \cite{von2013modern}. The library aims at:
+The module described in this work, is a gem implemented in pure \Ruby~code --- compatible with all standardized interpreters --- that is able to perform symbolic differentiation (SD) and some computer algebra operations~\cite{von2013modern}. The library aims at:
 \begin{itemize}
   \item be an instrument for rapid development of prototype interface for numerical algorithms and exporting code generated in different target languages;
   \item generate rapidly descriptions of mathematical models, with \emph{easy to implement} conditioning rules for numerical issues, changing on request how the code is exported, and how expressions are formulated in the target language;
-  \item \emph{separate mathematical expressions from numerical workarounds};
+  \item \emph{separate mathematical expressions from numerical conditioning and workarounds};
   \item create a complete open-source CAS system for the standard \Ruby~language, as a long-term ambitious impact.
 \end{itemize}
 
 This is not the first gem that tries to implement a CAS.\@ The available computer algebra library for \Ruby~are:
 \begin{description}
-  \item [\emph{Rucas} \cite{rucas}, \emph{Symbolic} \cite{symbolic}] gems at early stage and with discontinued developing status; they implement basic simplification routines. There is no AD method, but it is one of the milestones. The development for both is currently discontinued.
-  \item [\emph{Symengine} \cite{symengine}] is a wrapper for the C++ library \emph{symengine}. The back-end library is very complete, but it is compatible only with the RVM \Ruby~interpreter. At the moment, the \emph{SciRuby}~\cite{sciruby}~project reports the gem as broken, and removed it from its codebase. From a direct test, when performing SD of an arbitrary function, the engine always returns \texttt{nil}.
+  \item [\emph{Rucas}~\cite{rucas}, \emph{Symbolic}~\cite{symbolic}] gems at early stage and with discontinued development status; they offer basic simplification routines. There is no differentiation method, but it is one of the milestones.
+  \item [\emph{Symengine}~\cite{symengine}] is a wrapper for the C++ library \emph{symengine}. The back-end library is very complete, but it is compatible only with the RVM \Ruby~interpreter and has several dependencies. At the moment, the \emph{SciRuby}~\cite{sciruby}~project reports the gem as broken, and removed it from its codebase. From a direct test, when performing SD of an arbitrary function, the engine always returns \texttt{nil}.
 \end{description}
