@@ -35,7 +35,7 @@ Each symbolic expression (or operation) is the instance of an object, that inher
 \caption{Example graph from the first function reported in listing~\ref{code:example-diff}}
 \end{figure}
 
-When a new operation is created, it is appended to the graph. The number of branches are determined by the parent container class of the current symbolic function. There are three possible containers. Single argument operations --- e.g. $\sin(\cdot)$ --- have as closest parent the \CASOp~class, that links to one sub-graph. Expressions with two arguments --- e.g.\ difference or exponential function --- inherit from \CASBinaryOp, that links to two subgraphs. Operations with arbitrary number of arguments --- e.g.\ sum and product --- have as parent the \CASNaryOp\footnote{Please note that this container is still at experimental stage}, that links to an arbitrary number of subgraph. Figure~\ref{fig:graph} contains an example of graph. The different kind of containers allows to introduce some properties --- i.e. \emph{associativity} and \emph{commutativity} for sums and multiplications~\cite{cohen2003computer}. Each container exposes the subgraphs as instance properties. Containers interfaces and inheritances are shown in Figure~\ref{fig:uml-container}.
+When a new operation is created, it is appended to the graph. The number of branches are determined by the parent container class of the current symbolic function. There are three possible containers. Single argument operations --- e.g. $\sin(\cdot)$ --- have as closest parent the \CASOp~class, that links to one sub-graph. Expressions with two arguments --- e.g.\ difference or exponential function --- inherit from \CASBinaryOp, that links to two subgraphs. Operations with arbitrary number of arguments --- e.g.\ sum and product --- have as parent the \CASNaryOp\footnote{Please note that this container is still at experimental stage}, that links to an arbitrary number of subgraph. Figure~\ref{fig:graph} contains an example of graph. The different kind of containers allows to introduce some properties --- i.e. \emph{associativity} and \emph{commutativity} for sums and multiplications~\cite{cohen2003computer}. Each container exposes the subgraphs as instance properties. Containers interfaces and inheritances are shown in Figure~\ref{fig:uml-container}. %TODO issue with image label
 
 Terminal leafes of the graph are the classes \CASConstant, \CASVariable~and \CASFunction. The first models a simple numerical value, while the second represents an independent variable, that can be used to perform derivatives and evaluations, and the latter is a prototype of an implicit function. As for now, those leafes exemplify only real scalar expressions, with definition of complex, vectorial and matricial extensions as milestones for the next major release.
 
@@ -62,11 +62,11 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 
 \subsubsection{Software installation and prerequisites}
 
-Core functionalities has no dependencies. The gem can be installed through \emph{rbygems.org} provider: \texttt{gem install ragni-cas}. Functionalities must be required runtime using the Kernel method: \texttt{require 'ragni-cas'}. All methods and classes are incapsulated in the module \texttt{CAS}.
+Core functionalities have no dependencies. The gem can be installed through \emph{rubygems.org} provider: \texttt{gem install ragni-cas}. Functionalities must be required runtime using the Kernel method: \texttt{require 'ragni-cas'}. All methods and classes are incapsulated in the module \texttt{CAS}.
 
 \subsubsection{Basic Functionalities}
 % Present the major functionalities of the software.
-\textbf{SD} can be performed with respect to an independent variable (\CASVariable) through forward accumulation, even for implicit functions. The differentiation is done by a method of the \CASOp, having a \CASVariable~as argument:
+\textbf{SD} can be performed with respect to an independent variable (\CASVariable) through forward accumulation, even for implicit functions. The differentiation is done by the method \CASOpdiff, having a \CASVariable~as argument:
 
 \noindent%
 \begin{lstlisting}[caption={Differentiation example},label={code:example-diff}]
@@ -79,7 +79,7 @@ g.diff(z)                  # derivative w.r.t. z
 # => (z ^ (2 - 1) * 2) * Dg[0](z ^ 2)
 \end{lstlisting}
 
-\textbf{Automatic differentiation} (AD) is implemented using dual numbers \cite{bartholomew2000automatic}, and it is included as a plugin. This differentiation strategy can be used in case oectremely complex expressions, whose explicit derivative graph may exceed the call stack depth, that is platform dependent.
+\textbf{Automatic differentiation} (AD) is implemented using dual numbers \cite{bartholomew2000automatic}, and it is included as a plugin. This differentiation strategy can be used in case of complex expressions, whose explicit derivative graph may exceed the call stack depth, that is platform dependent.
 
 \textbf{Simplifications} are not executed automatically, after differentiations. Each node of the graph knows rules for simplify itself, and rules are called recursively inside the graph, exactly like ASD.\@ Simplifications that require an \emph{heuristic expansion} of the subgraph --- i.e.\ some trigonometric identities --- are not defined for now, but they can be easily achieved through \textbf{substitutions}:
 
