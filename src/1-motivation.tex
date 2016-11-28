@@ -22,7 +22,7 @@ The \Ruby~code-base exposes a large set of utilities in core and standard librar
 
 \Ruby~has matured its fame as a web oriented language with \emph{Rails}, and can efficiently generate code in other languages. An ASD-capable gem is the foundamental step to rapidly develop specific code generators for well known software --- e.g.\ IPOPT~\cite{wachter2009ipopt, wachter2006}\@.
 
-The module described in this work, is a gem implemented in pure \Ruby~code --- compatible with all standardized interpreters --- that is able to perform symbolic differentiation (SD) and some computer algebra operations~\cite{von2013modern}. The library aims at:
+\ragnicas\footnote{Minimalistic Ruby Computer Algebra System} is a gem implemented in pure \Ruby~code --- compatible with all standardized interpreters --- that is able to perform symbolic differentiation (SD) and some computer algebra operations~\cite{von2013modern}. The library aims at:
 \begin{itemize}
   \item be an instrument for rapid development of prototype interface for numerical algorithms and exporting code generated in different target languages;
   \item generate rapidly descriptions of mathematical models, with \emph{easy to implement} conditioning rules for numerical issues, changing on request how the code is exported, and how expressions are formulated in the target language;
@@ -36,4 +36,4 @@ This is not the first gem that tries to implement a CAS.\@ The available compute
   \item [\emph{Symengine}~\cite{symengine}] is a wrapper for the C++ library \emph{symengine}. The back-end library is very complete, but it is compatible only with the RVM \Ruby~interpreter and has several dependencies. At the moment, the \emph{SciRuby}~\cite{sciruby}~project reports the gem as broken, and removed it from its codebase. From a direct test, when performing SD of an arbitrary function, the engine always returns \texttt{nil}.
 \end{description}
 
-In Section~\ref{sec:description} module's container and tree structure is explained in detail and applied to basic CAS tasks. In Section~\ref{sec:examples} two examples on how to use the library as code generator or as interface are described. In Section~\ref{sec:impact}, the reasons behind the implementation and the long term desired impact are depicted.
+In Section~\ref{sec:description} \ragnicas's container and tree structure is explained in detail and applied to basic CAS tasks. In Section~\ref{sec:examples} two examples on how to use the library as code generator or as interface are described. In Section~\ref{sec:impact}, the reasons behind the implementation and the long term desired impact are depicted.
