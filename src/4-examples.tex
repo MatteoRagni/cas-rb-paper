@@ -9,7 +9,7 @@
 \label{sec:examples}
 
 \subsection{Code Generation as C Library}
-TIn this example a model is exported as C library. \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
+In this example a model is exported as C library. \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
 
 The library \texttt{example} implements the model:
 \begin{equation}
@@ -34,7 +34,7 @@ The function $g(x)$ models the following operation:
 \begin{equation}
 g(x) = (\sqrt{x + a} - \sqrt{x}) + \sqrt{\pi + x}
 \end{equation}
-and may suffer from \emph{catastrophic cancellation}~\cite{higham2002accuracy}. Users can specialize code generation rules for this particular expression, conditioned through rationalization and instead of modifying the model $g(x)$, in listing~\ref{code:example-exporting-C-2}, the rationalization is extended to all differences of square roots
+and may suffer from \emph{catastrophic cancellation}~\cite{higham2002accuracy}. Users can specialize code generation rules for this particular expression, conditioned through rationalization and instead of modifying the model $g(x)$, in Listing~\ref{code:example-exporting-C-2}, the rationalization is extended to all differences of square roots
 \footnote{i.e.:
 $\sqrt{\phi(\cdot)} - \sqrt{\psi(\cdot)} =
 \dfrac{\phi(\cdot) - \psi(\cdot)}{\sqrt{\phi(\cdot)} + \sqrt{\psi(\cdot)}}$}.
@@ -43,7 +43,7 @@ For more insight about \verb!__to_c! and \verb!__to_c_impl! please refer to the 
 \noindent%
 \lstinputlisting[caption={Conditioning in exporting function},label={code:example-exporting-C-2}]{./scripts/example_02.rb}
 
-It should be noted the \textbf{separation between the model} --- that does not contain conditioning --- \textbf{and the code generation rule} --- that overloads, for this particular case and this particular language, the predefined code generation rule. Obviously, a user can decide to apply directly the conditioning on the model. The result of listing~\ref{code:example-exporting-C-2} is reported:
+It should be noted the \textbf{separation between the model} --- that does not contain conditioning --- \textbf{and the code generation rule} --- that overloads, for this particular case and this particular language, the predefined code generation rule. Obviously, a user can decide to apply directly the conditioning on the model. The result of Listing~\ref{code:example-exporting-C-2} is reported:
 
 \noindent%
   \begin{minipage}{.5\textwidth}
@@ -73,7 +73,7 @@ where $p$ is the convergence order. Using a different value for $n$, for example
 \begin{equation}
   \dfrac{E[n]}{E[2\,n]} \approx 2^{p} \quad \rightarrow \quad p \approx \log_2 \left( \dfrac{E[n]}{E[2\,n]} \right)
 \end{equation}
-Following listings contain the implementation of the described procedure using the described gem and the well known \emph{Python}~\cite{van2011python} library \emph{SymPy}~\cite{christopher_smith_2016_47274}.
+Following Listings contain the implementation of the described procedure using the described gem and the well known \emph{Python}~\cite{van2011python} library \emph{SymPy}~\cite{christopher_smith_2016_47274}.
 
 \noindent%
   \begin{minipage}{.5\textwidth}

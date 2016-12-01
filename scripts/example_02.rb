@@ -19,7 +19,7 @@ module CAS
   end
 end
 
-clib = CAS::CLib.create "g_impl" do
+CAS::CLib.create "g_impl" do
   define "PARAM_A()", 1.0   # Arbitrary value for PARAM_A
   define "M_PI", Math::Pi
   implements_as "g_impl", g

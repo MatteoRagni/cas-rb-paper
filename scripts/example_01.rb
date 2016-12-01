@@ -1,5 +1,3 @@
-require 'ragni-cas/c-opt'
-
 # Model
 x, y = CAS.vars :x, :y
 g = CAS.declare :g, x

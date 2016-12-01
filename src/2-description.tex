@@ -31,10 +31,16 @@ Each symbolic expression (or operation) is the instance of an object, that inher
 \begin{figure}[ht!]
 \centering
 \input{img/graph-ex}
-\caption{\label{fig:graph}Tree of the expression derived in listing~\ref{code:example-diff}}
+\caption{\label{fig:graph}Tree of the expression derived in Listing~\ref{code:example-diff}}
 \end{figure}
 
-When a new operation is created, it is appended to the tree. The number of branches are determined by the parent container class of the current symbolic function. There are three possible containers. Single argument operations --- e.g. $\sin(\cdot)$ --- have as closest parent the \CASOp~class, that links to one sub-tree. Expressions with two arguments --- e.g.\ difference or exponential function --- inherit from \CASBinaryOp, that links to two sub-tree. Operations with arbitrary number of arguments --- e.g.\ sum and product --- have as parent the \CASNaryOp\footnote{Please note that this container is still at experimental stage}, that links to an arbitrary number of sub-tree. Figure~\ref{fig:graph} contains a graphical representation. The different kind of containers allows to introduce some properties --- i.e. \emph{associativity} and \emph{commutativity} for sums and multiplications~\cite{cohen2003computer}. Each container exposes the sub-tree as instance properties. Containers interfaces and inheritances are shown in Figure~\ref{fig:uml-container}. %TODO issue with image label
+When a new operation is created, it is appended to the tree. The number of branches are determined by the parent container class of the current symbolic function. There are three possible containers:
+\begin{description}
+  \item[\CASOp] single sub-tree operation --- e.g.~$\sin(\cdot)$.
+  \item[\CASBinaryOp] dual sub-tree operation --- e.g.~exponent $x^y$ --- that inherits from~\CASOp.
+  \item[\CASNaryOp] operation with arbitrary number of sub-tree --- e.g.~sum $x_1 + \cdots + x_N$ --- that inherits from~\CASOp.
+\end{description}
+ Figure~\ref{fig:graph} contains a graphical representation. The different kind of containers allows to introduce some properties --- i.e.~\emph{associativity} and \emph{commutativity} for sums and multiplications~\cite{cohen2003computer}. Each container exposes the sub-tree as instance properties. Containers interfaces and inheritances are shown in Figure~\ref{fig:uml-container}. %TODO issue with image label
 
 Terminal leafes of the graph are the classes \CASConstant, \CASVariable~and \CASFunction. The first models a simple numerical value, while the second represents an independent variable, that can be used to perform derivatives and evaluations, and the latter is a prototype of implicit functions. As for now, those leafes exemplify only real scalar expressions, with definition of complex, vectorial and matricial extensions as milestones for the next major release.
 

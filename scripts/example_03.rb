@@ -1,4 +1,4 @@
-require 'ragni-cas'
+require 'Mr.CAS'
 
 
 def integrate(f, a, b, n)
