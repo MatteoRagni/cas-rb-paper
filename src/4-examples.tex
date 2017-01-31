@@ -65,15 +65,16 @@ with $h = (b - a) / n $, where $n$ mediates the integration's step size. When ex
 \begin{equation}
   E[n] = F(b) - F(a) - I_{n}(a, b)
 \end{equation}
-This error shows a direct relation:
+The error has an asymptotic expansion of the form:
 \begin{equation}
   E[n] \propto C\,{n}^{-p}
 \end{equation}
-where $p$ is the convergence order. Using a different value for $n$, for example $2\,n$:
+where $p$ is the convergence order. Using a different value for $n$, for example $2\,n$, the ratio \ref{eq:error.ratio} takes the approximate vale:
 \begin{equation}
+  \label{eq:error.ratio}
   \dfrac{E[n]}{E[2\,n]} \approx 2^{p} \quad \rightarrow \quad p \approx \log_2 \left( \dfrac{E[n]}{E[2\,n]} \right)
 \end{equation}
-Following Listings contain the implementation of the described procedure using the described gem and the well known \emph{Python}~\cite{van2011python} library \emph{SymPy}~\cite{christopher_smith_2016_47274}.
+Following Listings contain the implementation of the described procedure using the proposed gem and the well known \emph{Python}~\cite{van2011python} library \emph{SymPy}~\cite{christopher_smith_2016_47274}.
 
 \noindent%
   \begin{minipage}{.5\textwidth}

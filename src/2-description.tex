@@ -23,7 +23,7 @@
 
 \ragnicas~is an object oriented ASD gem that supports some computer algebra routines such as \emph{simplifications} and \emph{substitutions}. When gem is required, it overloads methods of \Fixnum~and \Float~classes, making them compatible with foundamental symbolic classes.
 
-Each symbolic expression (or operation) is the instance of an object, that inherits from a common virtual ancestor: \CASOp. An operation encapsulates sub-operations recursively, building a linked tree, that is the mathematical equivalent of function composition:
+Each symbolic expression (or operation) is the instance of an object, that inherits from a common virtual ancestor: \CASOp. An operation encapsulates sub-operations recursively, building a tree, that is the mathematical equivalent of function composition:
 \begin{equation}
 \left( f \, \circ \, g \right)
 \end{equation}
@@ -42,7 +42,7 @@ When a new operation is created, it is appended to the tree. The number of branc
 \end{description}
  Figure~\ref{fig:graph} contains a graphical representation. The different kind of containers allows to introduce some properties --- i.e.~\emph{associativity} and \emph{commutativity} for sums and multiplications~\cite{cohen2003computer}. Each container exposes the sub-tree as instance properties. Containers interfaces and inheritances are shown in Figure~\ref{fig:uml-container}. %TODO issue with image label
 
-Terminal leafes of the graph are the classes \CASConstant, \CASVariable~and \CASFunction. The first models a simple numerical value, while the second represents an independent variable, that can be used to perform derivatives and evaluations, and the latter is a prototype of implicit functions. As for now, those leafes exemplify only real scalar expressions, with definition of complex, vectorial and matricial extensions as milestones for the next major release.
+Terminal leaves of the graph are the classes \CASConstant, \CASVariable~and \CASFunction. The first models a simple numerical value, while the second represents an independent variable, that can be used to perform derivatives and evaluations, and the latter is a prototype of implicit functions. As for now, those leaves exemplify only real scalar expressions, with definition of complex, vectorial and matricial extensions as milestones for the next major release.
 
 SD (\CASOpdiff) crosses the graph until it reaches ending nodes. A terminal node is the starting point for derivatives accumulation, the mathematical equivalent of the chain rule:
 \begin{equation}
@@ -64,18 +64,20 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 \subsection{Software Functionalities}
 \label{sec:functionalities}
 
-\subsubsection{Software installation and prerequisites}
+%\subsubsection{Software installation and prerequisites}
+\subsubsection{Basic Functionalities}
 
 \emph{No additional dependencies are required}. The gem can be installed through \emph{rubygems.org} provider\footnote{\texttt{gem install Mr.CAS}}. Functionalities must be required runtime using the Kernel method: \texttt{require \'Mr.CAS\'}. All methods and classes are incapsulated in the module \texttt{CAS}.
 
-\subsubsection{Basic Functionalities}
+%\subsubsection{Basic Functionalities}
+
 % Present the major functionalities of the software.
 \textbf{SD} is performed with respect to independent variables (\CASVariable) through forward accumulation, even for implicit functions. The differentiation is done by the method \CASOpdiff, having a \CASVariable~as argument:
 
 \noindent%
 \lstinputlisting[caption={Differentiation example},label={code:example-diff}]{./scripts/listing_01.rb}
 
-\textbf{Automatic differentiation} (AD) is included as plugin and exploits dual numbers~\cite{bartholomew2000automatic}. This differentiation strategy is useful in case of complex expressions, when explicit derivative's tree may exceed the call stack depth, that is platform dependent.
+\textbf{Automatic differentiation} (AD) is included as plugin and exploits properties of dual numbers to efficiently perform differentiation, see~\cite{bartholomew2000automatic} details. This differentiation strategy is useful in case of complex expressions, when explicit derivative's tree may exceed the call stack depth, that is platform dependent.
 
 \textbf{Simplifications} are not executed automatically, after differentiations. Each node of the tree knows rules for simplify itself, and rules are called recursively, exactly like ASD.\@ Simplifications that require an \emph{heuristic expansion} of the subgraph --- i.e.\ some trigonometric identities --- are not defined for now, but can be easily achieved through \textbf{substitutions}:
 
@@ -95,7 +97,7 @@ Symbolic expressions can be used to create comparative expressions, that are sto
 
 \subsubsection{Metaprogramming and Code-Generation}
 
-\ragnicas~is developed explicitly for \textbf{meta\-programming} and \textbf{generation of code}. Expressions can be exported as source code or used as prototypes for callable \emph{closures} (\texttt{Proc} objects):
+\ragnicas~is developed explicitly for \textbf{meta\-programming} and \textbf{code generation}. Expressions can be exported as source code or used as prototypes for callable \emph{closures} (\texttt{Proc} objects):
 
 \noindent%
 \lstinputlisting[caption={Graph evaluation example},label={code:example-proc}]{./scripts/listing_05.rb}
