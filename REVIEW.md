@@ -23,8 +23,8 @@ I've modified the abstract and the introduction of the work to make readers bett
 ### Point 2
 
 > I suggest the correction of some technical terms/expressions, since CAS users are the intended user community for this library:
- * in line 130, the term "piecewise functions" should be replaced by the term "maximum type functions".  In CAS software, piecewise functions are defined using "If" command.
- * in line 270, "gradients as patterns instead of matrices" possibly implies functional matrices as Hessian and Jordan matrices, where individual differential expressions form patterns.
+> * in line 130, the term "piecewise functions" should be replaced by the term "maximum type functions".  In CAS software, piecewise functions are defined using "If" command.
+> * in line 270, "gradients as patterns instead of matrices" possibly implies functional matrices as Hessian and Jordan matrices, where individual differential expressions form patterns.
 
 Dear Reviewer,
 
