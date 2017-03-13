@@ -31,16 +31,16 @@ x : Array
 
 
 % Inheritance
-\umlinherit[geometry=|-,anchor2=west]{CAS::Op}{CAS::BinaryOp}
-\umlinherit[geometry=|-,anchor2=west]{CAS::Op}{CAS::NaryOp}
+\umlinherit[geometry=|-,anchor2=east]{CAS::BinaryOp}{CAS::Op}
+\umlinherit[geometry=|-,anchor2=east]{CAS::NaryOp}{CAS::Op}
 
-\umlinherit[geometry=--,anchor1=east,anchor2=west]{CAS::Op}{CAS::Sin}
-\umlinherit[geometry=-|-,anchor1=east,anchor2=west]{CAS::Op}{CAS::Log}
+\umlinherit[geometry=--,anchor1=east,anchor2=east]{CAS::Sin}{CAS::Op}
+\umlinherit[geometry=-|-,anchor1=east,anchor2=east]{CAS::Log}{CAS::Op}
 
-\umlinherit[geometry=--,anchor1=east,anchor2=west]{CAS::BinaryOp}{CAS::Diff}
-\umlinherit[geometry=-|-,anchor1=east,anchor2=west]{CAS::BinaryOp}{CAS::Pow}
+\umlinherit[geometry=--,anchor1=east,anchor2=east]{CAS::Diff}{CAS::BinaryOp}
+\umlinherit[geometry=-|-,anchor1=east,anchor2=east]{CAS::Pow}{CAS::BinaryOp}
 
-\umlinherit[geometry=--,anchor1=east,anchor2=west]{CAS::NaryOp}{CAS::Sum}
-\umlinherit[geometry=-|-,anchor1=east,anchor2=west]{CAS::NaryOp}{CAS::Mul}
+\umlinherit[geometry=--,anchor1=east,anchor2=east]{CAS::Sum}{CAS::NaryOp}
+\umlinherit[geometry=-|-,anchor1=east,anchor2=east]{CAS::Mul}{CAS::NaryOp}
 
 \end{tikzpicture}

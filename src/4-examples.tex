@@ -9,13 +9,13 @@
 \label{sec:examples}
 
 \subsection{Code Generation as C Library}
-In this example a model is exported as C library. \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
+In this example \review{it is shown how a \emph{user of \ragnicas} can export a mathematical model as a C library}. \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
 
 The library \texttt{example} implements the model:
 \begin{equation}
 f(x, y) = x^y + g(x)\, \log(\sin(x^y))
 \end{equation}
-Expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, and its interface is described in \texttt{g\_impl.h} header. The code is optimized: the intermediate operation $x^y$ is evaluated once, even if appears twice in our model. The C function that implements our model $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values.
+Expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, and its interface is described in \texttt{g\_impl.h} header. \review{What should be noted is the form of the code exported}: the intermediate operation $x^y$ is evaluated once, even if appears twice in our model. The C function that implements our model $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values.
 
 \noindent%
 \lstinputlisting[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]{./scripts/example_01.rb}
@@ -23,38 +23,38 @@ Expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, an
 Library created by \texttt{CLib} contains the following code:
 
 \noindent%
-  \begin{minipage}{.5\textwidth}
-    \lstinputlisting[style=customruby,language=C,caption={C Header}]{./scripts/source.h}
-  \end{minipage}\hfill
-  \begin{minipage}{.5\textwidth}
-    \lstinputlisting[style=customruby,language=C,caption={C Source},frame=tbl]{./scripts/source.c}
-  \end{minipage}
+\begin{minipage}{.5\textwidth}
+\lstinputlisting[style=customruby,language=C,caption={C Header}]{./scripts/source.h}
+\end{minipage}\hfill
+\begin{minipage}{.5\textwidth}
+\lstinputlisting[style=customruby,language=C,caption={C Source},frame=tbl]{./scripts/source.c}
+\end{minipage}
 
 The function $g(x)$ models the following operation:
 \begin{equation}
 g(x) = (\sqrt{x + a} - \sqrt{x}) + \sqrt{\pi + x}
 \end{equation}
-and may suffer from \emph{catastrophic cancellation}~\cite{higham2002accuracy}. Users can specialize code generation rules for this particular expression, conditioned through rationalization and instead of modifying the model $g(x)$, in Listing~\ref{code:example-exporting-C-2}, the rationalization is extended to all differences of square roots
+and may suffer from \emph{catastrophic \review{numerical} cancellation}~\cite{higham2002accuracy} \review{when $x$ value is considerably greater than $a$}. User \review{may decide to} specialize code generation rules for this particular expression, \review{stabilizing it} through rationalization. \review{Without modifying the actual model} $g(x)$ in Listing~\ref{code:example-exporting-C-2} the rationalization is inserted \review{into exportation rules} for differences of square roots
 \footnote{i.e.:
 $\sqrt{\phi(\cdot)} - \sqrt{\psi(\cdot)} =
 \dfrac{\phi(\cdot) - \psi(\cdot)}{\sqrt{\phi(\cdot)} + \sqrt{\psi(\cdot)}}$}.
-For more insight about \verb!__to_c! and \verb!__to_c_impl! please refer to the software manual.
+\review{This rule is valid only for the current user script}. For more insight about \verb!__to_c! and \verb!__to_c_impl!\review{,} refer to the software manual.
 
 \noindent%
 \lstinputlisting[caption={Conditioning in exporting function},label={code:example-exporting-C-2}]{./scripts/example_02.rb}
 
-It should be noted the \textbf{separation between the model} --- that does not contain conditioning --- \textbf{and the code generation rule} --- that overloads, for this particular case and this particular language, the predefined code generation rule. Obviously, a user can decide to apply directly the conditioning on the model. The result of Listing~\ref{code:example-exporting-C-2} is reported:
+It should be noted the \textbf{separation between the model}---that does not contain \review{stabilization}---\textbf{and the code generation rule}---that overloads, for this particular case and this particular language, the predefined code generation rule \review{to obtain the conditioned code}. Obviously, a user can decide to apply directly the conditioning on the model\review{, but this may change the calculus behavior in further manipulation}. The result of Listing~\ref{code:example-exporting-C-2} is reported:
 
 \noindent%
-  \begin{minipage}{.5\textwidth}
-    \lstinputlisting[style=customruby,language=C,caption={\texttt{g\_impl} Header}]{./scripts/g_impl.h}
-  \end{minipage}\hfill
-  \begin{minipage}{.5\textwidth}
-    \lstinputlisting[style=customruby,language=C,caption={\texttt{g\_impl} Source},frame=tbl]{./scripts/g_impl.c}
-  \end{minipage}
+\begin{minipage}{.5\textwidth}
+\lstinputlisting[style=customruby,language=C,caption={\texttt{g\_impl} Header}]{./scripts/g_impl.h}
+\end{minipage}\hfill
+\begin{minipage}{.5\textwidth}
+\lstinputlisting[style=customruby,language=C,caption={\texttt{g\_impl} Source},frame=tbl]{./scripts/g_impl.c}
+\end{minipage}
 
 \subsection{Using the module as interface}
-As example, an implementation of an algorithm that extimates the \emph{order of convergence} for trapezoidal integration scheme~\cite{weideman2002numerical} is provided, using the symbolic differentiation as interface.
+As example, an implementation of an algorithm that estimates the \emph{order of convergence} for trapezoidal integration scheme~\cite{weideman2002numerical} is provided, using the symbolic differentiation as interface.
 
 Given a function $f(x)$, the trapezoidal rule for primitive estimation in the interval $[a,\,b]$ is:
 \begin{equation}
@@ -69,7 +69,7 @@ The error has an asymptotic expansion of the form:
 \begin{equation}
   E[n] \propto C\,{n}^{-p}
 \end{equation}
-where $p$ is the convergence order. Using a different value for $n$, for example $2\,n$, the ratio \ref{eq:error.ratio} takes the approximate vale:
+where $p$ is the convergence order. Using a different value for $n$, for example $2\,n$, the ratio~\ref{eq:error.ratio} takes the approximate vale:
 \begin{equation}
   \label{eq:error.ratio}
   \dfrac{E[n]}{E[2\,n]} \approx 2^{p} \quad \rightarrow \quad p \approx \log_2 \left( \dfrac{E[n]}{E[2\,n]} \right)
@@ -77,9 +77,34 @@ where $p$ is the convergence order. Using a different value for $n$, for example
 Following Listings contain the implementation of the described procedure using the proposed gem and the well known \emph{Python}~\cite{van2011python} library \emph{SymPy}~\cite{christopher_smith_2016_47274}.
 
 \noindent%
-  \begin{minipage}{.5\textwidth}
-    \lstinputlisting[style=customruby,caption={Ruby version}]{./scripts/example_03.rb}
-  \end{minipage}\hfill
-  \begin{minipage}{.5\textwidth}
-    \lstinputlisting[style=customruby,language=python,caption={Python version},frame=tbl]{./scripts/example_03.py}
-  \end{minipage}
+\begin{minipage}{.5\textwidth}
+\lstinputlisting[style=customruby,caption={Ruby version}]{./scripts/example_03.rb}
+\end{minipage}\hfill
+\begin{minipage}{.5\textwidth}
+\lstinputlisting[style=customruby,language=python,caption={Python version},frame=tbl]{./scripts/example_03.py}
+\end{minipage}
+
+\review{
+\subsection{ODE Solver with Taylor's series}
+
+In this example we assume a user needs to generate a solving step for specific ODE problems, using Taylor's series method~\cite{Butcher20081}. Given an ODE in the form:
+\begin{equation}
+\label{eq:taylor.ode}
+y'(x) = f\left(x, y(x)\right)
+\end{equation}
+the integration step with order $n$ has the form:
+\begin{equation}
+y(x + h) = y(x)  + h\,y'(x) + \dots + \dfrac{h^{n}}{n!} \, y^{(n)}(x) + E_{n}(x)
+\end{equation}
+where, obviously, it is possible to use equation~\ref{eq:taylor.ode}, which brings to the following recurrent identity:
+\begin{equation}
+{y}^{(i)}(x) =
+\dfrac{\partial {y}^{(i-1)}(x)}{\partial x} +
+\dfrac{\partial {y}^{(i-1)}(x)}{\partial y} {y'}(x)
+\end{equation}
+For this algorithm, three methods are defined. The first evaluates the factorial, the second evaluates the list of required derivatives, and the third returns the integration step in a symbolic form. The result of the third method is transformed in a C function. In this particular case, the ODE is $y' = x y$.
+\lstinputlisting[caption={Generator for ODE integration step},label={code:example-ode}]{./scripts/listing_07.rb}
+For the resulting C code, please check online version of the examples.
+
+Other usage examples are available online\footnote{\url{http://bit.ly/Mr_CAS_examples}}---i.e.~adding a user defined \CASOp that implements the $\mathrm{sign}(\cdot)$ function with the appropriate optimized C generation rule; exporting this operation as a continuous function through overloading or substitutions; performing a symbolic Taylor's series; writing an exporter for the \LaTex language.
+} % review

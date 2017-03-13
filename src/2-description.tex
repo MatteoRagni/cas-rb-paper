@@ -21,7 +21,7 @@
 % Give a short overview of the overall software architecture; provide a pictorial component overview
 % or similar (if possible). If necessary provide implementation details.
 
-\ragnicas~is an object oriented ASD gem that supports some computer algebra routines such as \emph{simplifications} and \emph{substitutions}. When gem is required, it overloads methods of \Fixnum~and \Float~classes, making them compatible with foundamental symbolic classes.
+\ragnicas~is an object oriented ASD gem that supports some computer algebra routines such as \emph{simplifications} and \emph{substitutions}. When gem is required, it overloads methods of \Fixnum~and \Float~classes, making them compatible with fundamental symbolic classes.
 
 Each symbolic expression (or operation) is the instance of an object, that inherits from a common virtual ancestor: \CASOp. An operation encapsulates sub-operations recursively, building a tree, that is the mathematical equivalent of function composition:
 \begin{equation}
@@ -36,11 +36,11 @@ Each symbolic expression (or operation) is the instance of an object, that inher
 
 When a new operation is created, it is appended to the tree. The number of branches are determined by the parent container class of the current symbolic function. There are three possible containers:
 \begin{description}
-  \item[\CASOp] single sub-tree operation --- e.g.~$\sin(\cdot)$.
-  \item[\CASBinaryOp] dual sub-tree operation --- e.g.~exponent $x^y$ --- that inherits from~\CASOp.
-  \item[\CASNaryOp] operation with arbitrary number of sub-tree --- e.g.~sum $x_1 + \cdots + x_N$ --- that inherits from~\CASOp.
+  \item[\CASOp] single sub-tree operation---e.g.~$\sin(\cdot)$.
+  \item[\CASBinaryOp] dual sub-tree operation---e.g.~exponent $x^y$---that inherits from~\CASOp.
+  \item[\CASNaryOp] operation with arbitrary number of sub-tree---e.g.~sum $x_1 + \cdots + x_N$---that inherits from~\CASOp.
 \end{description}
- Figure~\ref{fig:graph} contains a graphical representation. The different kind of containers allows to introduce some properties --- i.e.~\emph{associativity} and \emph{commutativity} for sums and multiplications~\cite{cohen2003computer}. Each container exposes the sub-tree as instance properties. Containers interfaces and inheritances are shown in Figure~\ref{fig:uml-container}. %TODO issue with image label
+Fig.~\ref{fig:graph} contains a graphical representation. The different kind of containers allows to introduce some properties---i.e.~\emph{associativity} and \emph{commutativity} for sums and multiplications~\cite{cohen2003computer}. Each container exposes the sub-tree as instance properties. \review{Basic} containers interfaces and inheritances are shown in Fig.~\ref{fig:uml-container}. \review{For a complete overview of all classes and inheritance, please refer to software documentation.}
 
 Terminal leaves of the graph are the classes \CASConstant, \CASVariable~and \CASFunction. The first models a simple numerical value, while the second represents an independent variable, that can be used to perform derivatives and evaluations, and the latter is a prototype of implicit functions. As for now, those leaves exemplify only real scalar expressions, with definition of complex, vectorial and matricial extensions as milestones for the next major release.
 
@@ -54,7 +54,7 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 \begin{figure}[ht!]
 \centering
 \input{img/class-struct}
-\caption{\label{fig:uml-container}Simplified version of classes interface and inheritance}
+\caption{\label{fig:uml-container}Reduced version of classes interface and inheritance. \review{The figure depicts the basic abstract class \CASOp, from which the \emph{single argument} operations inherit. \CASOp~is also the base for other kind of containers, namely the \CASBinaryOp~and \CASNaryOp, models of containers with \emph{two} and \emph{more arguments}}}
 \end{figure}
 
 %  ___             _   _               _ _ _   _
@@ -67,7 +67,7 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 %\subsubsection{Software installation and prerequisites}
 \subsubsection{Basic Functionalities}
 
-\emph{No additional dependencies are required}. The gem can be installed through \emph{rubygems.org} provider\footnote{\texttt{gem install Mr.CAS}}. Functionalities must be required runtime using the Kernel method: \texttt{require \'Mr.CAS\'}. All methods and classes are incapsulated in the module \texttt{CAS}.
+\emph{No additional dependencies are required}. The gem can be installed through \emph{rubygems.org} provider\footnote{\texttt{gem install Mr.CAS}}. Functionalities must be required run-time using the Kernel method: \texttt{require \'Mr.CAS\'}. All methods and classes are encapsulated in the module \texttt{CAS}.
 
 %\subsubsection{Basic Functionalities}
 
@@ -79,7 +79,7 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 
 \textbf{Automatic differentiation} (AD) is included as plugin and exploits properties of dual numbers to efficiently perform differentiation, see~\cite{bartholomew2000automatic} details. This differentiation strategy is useful in case of complex expressions, when explicit derivative's tree may exceed the call stack depth, that is platform dependent.
 
-\textbf{Simplifications} are not executed automatically, after differentiations. Each node of the tree knows rules for simplify itself, and rules are called recursively, exactly like ASD.\@ Simplifications that require an \emph{heuristic expansion} of the subgraph --- i.e.\ some trigonometric identities --- are not defined for now, but can be easily achieved through \textbf{substitutions}:
+\textbf{Simplifications} are not executed automatically, after differentiation. Each node of the tree knows rules for simplify itself, and rules are called recursively, exactly like ASD.\@ Simplifications that require an \emph{heuristic expansion} of the sub-graph---i.e.\ some trigonometric identities---are not defined for now, but can be easily achieved through \textbf{substitutions}:
 
 \noindent%
 \lstinputlisting[caption={Simplification example},label={code:example-simp}]{./scripts/listing_02.rb}
@@ -90,12 +90,12 @@ The tree is numerically \textbf{evaluated} when independent variables values are
 \lstinputlisting[caption={Tree evaluation example},label={code:example-call}]{./scripts/listing_03.rb}
 
 
-Symbolic expressions can be used to create comparative expressions, that are stored in special container classes, modeled by the ancestor \CASExpression~--- e.g. $f(\cdot) \geq g(\cdot)$. This allow the definition of piecewise functions --- e.g. $\max(f(\cdot), g(\cdot))$.
+Symbolic expressions can be used to create comparative expressions, that are stored in special container classes, modeled by the ancestor \CASExpression---e.g. $f(\cdot) \geq g(\cdot)$. This allow the definition of piecewise functions, \review{in \CASPiecewise. Internally, $\max(\cdot)$ and $\min(\cdot)$ functions are declared as operations that inherits from \CASPiecewise}---e.g. $\max(f(\cdot), g(\cdot))$.
 
 \noindent%
 \lstinputlisting[caption={Expressions and Piecewise functions},label={code:example-expr}]{./scripts/listing_04.rb}
 
-\subsubsection{Metaprogramming and Code-Generation}
+\subsubsection{Meta-programming and Code-Generation}
 
 \ragnicas~is developed explicitly for \textbf{meta\-programming} and \textbf{code generation}. Expressions can be exported as source code or used as prototypes for callable \emph{closures} (\texttt{Proc} objects):
 
@@ -104,7 +104,7 @@ Symbolic expressions can be used to create comparative expressions, that are sto
 
 Compiling a closure of a tree is like making its snapshot, thus any further manipulation of the expression do not update the callable object. This drawback is balanced by the faster execution time of a \texttt{Proc}: when a graph needs \emph{only to be evaluated} in a iterative algorithm, transforming it in a \emph{closure} reduces the execution time per iteration.
 
-Code generation should be flexible enough to export expressions' trees in a user's target language. Generation methods for common languages are included in specific \textbf{plugins}. Users can furthemore expand exporting capabilites by writing specific exportation rules,  overriding method for existing plugin, or desining their own exporter:
+Code generation should be flexible enough to export expressions' trees in a user's target language. Generation methods for common languages are included in specific \textbf{plugins}. Users can furthermore expand exporting capabilities by writing specific exportation rules, overriding method for existing plugin, or designing their own exporter:
 
 \noindent%
 \lstinputlisting[caption={Example of Ruby code generation plugin},label={code:example-exporting}]{./scripts/listing_06.rb}

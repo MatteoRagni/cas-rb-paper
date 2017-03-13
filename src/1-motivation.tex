@@ -20,12 +20,12 @@ With the advent of the \emph{Internet of Things}, a compact version of the \Ruby
 
 The \Ruby code-base exposes a large set of utilities in core and standard libraries, that can be furthermore expanded through third party libraries, or \emph{gems}. Among the large number of available gems, \Ruby still lacks an \textbf{automatic symbolic differentiation} (ASD)~\cite{tolsma1998computational} engine that handles basic computer algebra routines, compatible with all different \Ruby interpreters.
 
-Nowadays \Ruby is mainly known thanks to the web-oriented \emph{Rails} framework, Its expressiveness and elegance though make it intriguing for use in the scientific/technical field. An ASD-capable gem would prove a foundamental step in this direction, including the support for flexible code generation for high-level software---e.g.,\ IPOPT~\cite{wachter2009ipopt, wachter2006}\@.
+Nowadays \Ruby is mainly known thanks to the web-oriented \emph{Rails} framework. Its expressiveness and elegance though make it intriguing for use in the scientific/technical field. An ASD-capable gem would prove a fundamental step in this direction, including the support for flexible code generation for high-level software---e.g.,\ IPOPT~\cite{wachter2009ipopt, wachter2006}\@.
 
 \ragnicas\footnote{Minimalistic Ruby Computer Algebra System} is a gem implemented in pure \Ruby that supports symbolic differentiation (SD) and some computer algebra operations~\cite{von2013modern}. The library aims at:
 \begin{itemize}
-  \item support rapid prototyping of numerical algorithms and code generation to different target languages;
-  \item when dealing with mathematical models, support a clean and separate formulation of conditioning rules for numerical issues, in order to support more robust code generation;
+  \item support \review{programmers in} rapid prototyping numerical algorithms and code generation, also in different target languages;
+  \item when dealing with \review{implementation of} mathematical models \review{in numerical algorithms}, support a clean and separate formulation of conditioning rules for numerical \review{instabilities}, in order to support \review{generation of code that is more robust with respect to issue that can be introduced by specific applications};
   \item create a complete open-source CAS system for the standard \Ruby language, as a long-term effort.
 \end{itemize}
 
@@ -37,4 +37,4 @@ Other CAS libraries for \Ruby are available:
 %At the moment, the \emph{SciRuby}~\cite{sciruby} project reports the gem as broken, and removed it from its own codebase. From a direct test, when performing SD of an arbitrary function, the engine always returns \texttt{nil}.
 \end{description}
 
-In Section~\ref{sec:description}, \ragnicas container and tree structure is explained in detail and applied to basic CAS tasks. In Section~\ref{sec:examples}, two examples on how to use the library as code generator or as interface are described. Finally, the reasons behind the implementation and the long term desired impact are depicted in Section~\ref{sec:impact}. All code listings are available at \url{http://bit.ly/Mr_CAS_examples}.
+In Section~\ref{sec:description}, \ragnicas containers and tree structure are explained in detail and applied to basic CAS tasks. In Section~\ref{sec:examples}, two examples on how to use the library as code generator or as interface are described. Finally, the reasons behind the implementation and the long term desired impact are depicted in Section~\ref{sec:impact}. All code listings are available at \url{http://bit.ly/Mr_CAS_examples}.

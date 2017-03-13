@@ -24,3 +24,6 @@ CAS::CLib.create "g_impl" do
   define "M_PI", Math::Pi
   implements_as "g_impl", g
 end
+
+puts g
+# => ((sqrt((x + PARAM_A())) - sqrt(x)) + sqrt((π + x)))

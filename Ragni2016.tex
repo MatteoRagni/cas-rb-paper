@@ -45,16 +45,16 @@
 % |_||_| \___/_||_\__|_|_|_\__,_|\__|\__\___|_|
 \begin{frontmatter}
 
-\title{\ragnicas - A Minimalistic (pure) \Ruby CAS for Fast Prototyping and Code Generation}
+\title{\ragnicas --- A Minimalistic (pure) \Ruby CAS for Fast Prototyping and Code Generation}
 
 \author[ragni]{Matteo Ragni}
 \address[ragni]{Department of Industrial Engineering, University of Trento, 9, Sommarive, Povo di Trento, Italy}
 \ead{matteo.ragni@unitn.it}
 
 \begin{abstract}
-There are complete \textbf{Computer Algebra System} (CAS) systems on the market with complete solutions for manipulation of analytical models. But exporting a model to a given target language is often a rigid procedure that requires some manual post-processing, even with a good software.
-This work presents a \Ruby library that exposes core CAS capabilities---i.e.\ simplification, substitution, evaluation, etc. The library aims at rapid prototyping of numerical interfaces, and code generation for different target languages, separating mathematical expression from code generation rules supporting best practices for numerical conditioning.
-The library is implemented in pure \Ruby language and is compatible with most \Ruby interpreters.
+There are complete \textbf{Computer Algebra System} (CAS) systems on the market with complete solutions for manipulation of analytical models. But exporting a model\review{that implements specific algorithms on specific platforms,} for target language\review{ or for particular numerical library,} is often a rigid procedure that requires manual post-processing, even with a good software.
+This work presents a \Ruby library that exposes core CAS capabilities---i.e.\ simplification, substitution, evaluation, etc. \review{The library aims at programmers that need to rapidly prototype and generate numerical code}  for different target languages,\review{while keeping separated mathematical expression from the code generation rules, where best practices for numerical conditioning are implemented}.
+The library is written in pure \Ruby language and is compatible with most \Ruby interpreters.
 \end{abstract}
 
 \begin{keyword}
