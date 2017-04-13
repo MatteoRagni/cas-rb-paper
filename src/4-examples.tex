@@ -9,13 +9,13 @@
 \label{sec:examples}
 
 \subsection{Code Generation as C Library}
-In this example \review{it is shown how a \emph{user of \ragnicas} can export a mathematical model as a C library}. \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
+In this example \review{it is shown how a \emph{user of \ragnicas} can export a mathematical model as a C library}. The \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
 
 The library \texttt{example} implements the model:
 \begin{equation}
 f(x, y) = x^y + g(x)\, \log(\sin(x^y))
 \end{equation}
-Expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, and its interface is described in \texttt{g\_impl.h} header. \review{What should be noted is the form of the code exported}: the intermediate operation $x^y$ is evaluated once, even if appears twice in our model. The C function that implements our model $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values.
+where the expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, which interface is described in \texttt{g\_impl.h} header. \review{What should be noted is the form of the code exported}: the intermediate operation $x^y$ is evaluated once, even if appears twice in our model. The C function that implements our model $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values.
 
 \noindent%
 \lstinputlisting[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]{./scripts/example_01.rb}
@@ -34,7 +34,7 @@ The function $g(x)$ models the following operation:
 \begin{equation}
 g(x) = (\sqrt{x + a} - \sqrt{x}) + \sqrt{\pi + x}
 \end{equation}
-and may suffer from \emph{catastrophic \review{numerical} cancellation}~\cite{higham2002accuracy} \review{when $x$ value is considerably greater than $a$}. User \review{may decide to} specialize code generation rules for this particular expression, \review{stabilizing it} through rationalization. \review{Without modifying the actual model} $g(x)$ in Listing~\ref{code:example-exporting-C-2} the rationalization is inserted \review{into exportation rules} for differences of square roots
+and may suffer from \emph{catastrophic \review{numerical} cancellation}~\cite{higham2002accuracy} \review{when $x$ value is considerably greater than $a$}. The user \review{may decide to} specialize code generation rules for this particular expression, \review{stabilizing it} through rationalization. \review{Without modifying the actual model} $g(x)$ in Listing~\ref{code:example-exporting-C-2} the rationalization is inserted \review{into exportation rules} for differences of square roots
 \footnote{i.e.:
 $\sqrt{\phi(\cdot)} - \sqrt{\psi(\cdot)} =
 \dfrac{\phi(\cdot) - \psi(\cdot)}{\sqrt{\phi(\cdot)} + \sqrt{\psi(\cdot)}}$}.
@@ -43,7 +43,7 @@ $\sqrt{\phi(\cdot)} - \sqrt{\psi(\cdot)} =
 \noindent%
 \lstinputlisting[caption={Conditioning in exporting function},label={code:example-exporting-C-2}]{./scripts/example_02.rb}
 
-It should be noted the \textbf{separation between the model}---that does not contain \review{stabilization}---\textbf{and the code generation rule}---that overloads, for this particular case and this particular language, the predefined code generation rule \review{to obtain the conditioned code}. Obviously, a user can decide to apply directly the conditioning on the model\review{, but this may change the calculus behavior in further manipulation}. The result of Listing~\ref{code:example-exporting-C-2} is reported:
+It should be noted the separation between the \emph{model}---that does not contain \review{stabilization}---and the \emph{code generation rule}. For this particular case, the code generation rule in Listing~\ref{code:example-exporting-C-2} overloads the predefined one, in order to \review{obtain the conditioned code}. Obviously, the user can decide to apply directly the conditioning on the model itself\review{, but this may change the calculus behavior in further manipulation}.
 
 \noindent%
 \begin{minipage}{.5\textwidth}
@@ -74,14 +74,14 @@ where $p$ is the convergence order. Using a different value for $n$, for example
   \label{eq:error.ratio}
   \dfrac{E[n]}{E[2\,n]} \approx 2^{p} \quad \rightarrow \quad p \approx \log_2 \left( \dfrac{E[n]}{E[2\,n]} \right)
 \end{equation}
-Following Listings contain the implementation of the described procedure using the proposed gem and the well known \emph{Python}~\cite{van2011python} library \emph{SymPy}~\cite{christopher_smith_2016_47274}.
+The Listings~\ref{code:example-integrate-ruby} and \ref{code:example-integrate-python} contain the implementation of the described procedure using the proposed gem and the well known \emph{Python}~\cite{van2011python} library \emph{SymPy}~\cite{christopher_smith_2016_47274}.
 
 \noindent%
 \begin{minipage}{.5\textwidth}
-\lstinputlisting[style=customruby,caption={Ruby version}]{./scripts/example_03.rb}
+\lstinputlisting[style=customruby,caption={Ruby version},label={code:example-integrate-ruby}]{./scripts/example_03.rb}
 \end{minipage}\hfill
 \begin{minipage}{.5\textwidth}
-\lstinputlisting[style=customruby,language=python,caption={Python version},frame=tbl]{./scripts/example_03.py}
+\lstinputlisting[style=customruby,language=python,caption={Python version},frame=tbl,label={code:example-integrate-python}]{./scripts/example_03.py}
 \end{minipage}
 
 \review{
@@ -104,7 +104,14 @@ where, obviously, it is possible to use equation~\ref{eq:taylor.ode}, which brin
 \end{equation}
 For this algorithm, three methods are defined. The first evaluates the factorial, the second evaluates the list of required derivatives, and the third returns the integration step in a symbolic form. The result of the third method is transformed in a C function. In this particular case, the ODE is $y' = x y$.
 \lstinputlisting[caption={Generator for ODE integration step},label={code:example-ode}]{./scripts/listing_07.rb}
-For the resulting C code, please check online version of the examples.
+For the resulting C code, refer to the online version of the examples.
 
-Other usage examples are available online\footnote{\url{http://bit.ly/Mr_CAS_examples}}---i.e.~adding a user defined \CASOp~that implements the $\mathrm{sign}(\cdot)$ function with the appropriate optimized C generation rule; exporting this operation as a continuous function through overloading or substitutions; performing a symbolic Taylor's series; writing an exporter for the \LaTeX{} language; a Newton-Raphson algorithm using automatic differentiation plugin.
+Other examples are available online\footnote{\url{http://bit.ly/Mr_CAS_examples}}:
+\begin{enumerate*}[label=\emph{\alph*}.]
+\item adding a user defined \CASOp~that implements the $\mathrm{sign}(\cdot)$ function with the appropriate optimized C generation rule;
+\item exporting the operation as a continuous function through overloading or substitutions;
+\item performing a symbolic Taylor's series;
+\item writing an exporter for the \LaTeX{} language;
+\item a Newton-Raphson algorithm using automatic differentiation plugin.
+\end{enumerate*}
 } % review

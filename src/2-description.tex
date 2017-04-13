@@ -21,7 +21,7 @@
 % Give a short overview of the overall software architecture; provide a pictorial component overview
 % or similar (if possible). If necessary provide implementation details.
 
-\ragnicas~is an object oriented ASD gem that supports some computer algebra routines such as \emph{simplifications} and \emph{substitutions}. When gem is required, it overloads methods of \Fixnum~and \Float~classes, making them compatible with fundamental symbolic classes.
+\ragnicas~is an object oriented ASD gem that supports some computer algebra routines such as simplifications and substitutions. When gem is required, it overloads methods of \Fixnum~and \Float~classes, making them compatible with fundamental symbolic classes.
 
 Each symbolic expression (or operation) is the instance of an object, that inherits from a common virtual ancestor: \CASOp. An operation encapsulates sub-operations recursively, building a tree, that is the mathematical equivalent of function composition:
 \begin{equation}
@@ -42,9 +42,9 @@ When a new operation is created, it is appended to the tree. The number of branc
 \end{description}
 Fig.~\ref{fig:graph} contains a graphical representation. The different kind of containers allows to introduce some properties---i.e.~\emph{associativity} and \emph{commutativity} for sums and multiplications~\cite{cohen2003computer}. Each container exposes the sub-tree as instance properties. \review{Basic} containers interfaces and inheritances are shown in Fig.~\ref{fig:uml-container}. \review{For a complete overview of all classes and inheritance, please refer to software documentation.}
 
-Terminal leaves of the graph are the classes \CASConstant, \CASVariable~and \CASFunction. The first models a simple numerical value, while the second represents an independent variable, that can be used to perform derivatives and evaluations, and the latter is a prototype of implicit functions. As for now, those leaves exemplify only real scalar expressions, with definition of complex, vectorial and matricial extensions as milestones for the next major release.
+The terminal leaves of the graph are the classes \CASConstant, \CASVariable~and \CASFunction. The first models a simple numerical value, while the second represents an independent variable, that can be used to perform derivatives and evaluations, and the latter is a prototype of implicit functions. Those leaves exemplify only real scalar expressions, with definition of complex, vectorial, and matricial extensions as milestones for the next major release.
 
-SD (\CASOpdiff) crosses the graph until it reaches ending nodes. A terminal node is the starting point for derivatives accumulation, the mathematical equivalent of the chain rule:
+The symbolic differentiation (\CASOpdiff) explores the graph until it reaches ending nodes. A terminal node is the starting point for derivatives accumulation, the mathematical equivalent of the chain rule:
 \begin{equation}
 \left( f  \, \circ \, g \right)' \: = \:
 \left( f' \, \circ \, g \right) \: g'
@@ -72,39 +72,39 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 %\subsubsection{Basic Functionalities}
 
 % Present the major functionalities of the software.
-\textbf{SD} is performed with respect to independent variables (\CASVariable) through forward accumulation, even for implicit functions. The differentiation is done by the method \CASOpdiff, having a \CASVariable~as argument:
+Symbolic Differentiation (SD) is performed with respect to independent variables (\CASVariable) through forward accumulation, even for implicit functions. The differentiation is done by the method \CASOpdiff, having a \CASVariable~as argument, as shown in Listing~\ref{code:example-diff}.
 
 \noindent%
 \lstinputlisting[caption={Differentiation example},label={code:example-diff}]{./scripts/listing_01.rb}
 
-\textbf{Automatic differentiation} (AD) is included as plugin and exploits properties of dual numbers to efficiently perform differentiation, see~\cite{bartholomew2000automatic} details. This differentiation strategy is useful in case of complex expressions, when explicit derivative's tree may exceed the call stack depth, that is platform dependent.
+Automatic differentiation (AD) is included as plugin and exploits properties of dual numbers to efficiently perform differentiation, see~\cite{bartholomew2000automatic} for further details. This differentiation strategy is useful in case of complex expressions, when explicit derivative's tree may exceed the call stack depth, that is platform dependent.
 
-\textbf{Simplifications} are not executed automatically, after differentiation. Each node of the tree knows rules for simplify itself, and rules are called recursively, exactly like ASD.\@ Simplifications that require an \emph{heuristic expansion} of the sub-graph---i.e.\ some trigonometric identities---are not defined for now, but can be easily achieved through \textbf{substitutions}:
+Simplifications are not executed automatically, after differentiation. Each node of the tree knows rules for simplify itself, and rules are called recursively, exactly like ASD.\@ Simplifications that require an \emph{heuristic expansion} of the sub-graph---i.e.\ some trigonometric identities---are not defined for now, but can be easily achieved through substitutions, as shown in Listing~\ref{code:example-simp}.
 
 \noindent%
 \lstinputlisting[caption={Simplification example},label={code:example-simp}]{./scripts/listing_02.rb}
 
-The tree is numerically \textbf{evaluated} when independent variables values are provided in a feed dictionary. The graph is reduced recursively to a single numeric value:
+The tree is numerically evaluated when independent variables values are provided in a feed dictionary. The graph is reduced recursively to a single numeric value, as shown in Listing~\ref{code:example-call}.
 
 \noindent%
 \lstinputlisting[caption={Tree evaluation example},label={code:example-call}]{./scripts/listing_03.rb}
 
 
-Symbolic expressions can be used to create comparative expressions, that are stored in special container classes, modeled by the ancestor \CASExpression---e.g. $f(\cdot) \geq g(\cdot)$. This allow the definition of piecewise functions, \review{in \CASPiecewise. Internally, $\max(\cdot)$ and $\min(\cdot)$ functions are declared as operations that inherits from \CASPiecewise}---e.g. $\max(f(\cdot), g(\cdot))$.
+Symbolic expressions can be used to create comparative expressions, that are stored in special container classes, modeled by the ancestor \CASExpression---for example, $f(\cdot) \geq g(\cdot)$. This allow the definition of piecewise functions, \review{in \CASPiecewise. Internally, $\max(\cdot)$ and $\min(\cdot)$ functions are declared as operations that inherits from \CASPiecewise}---for example, $\max(f(\cdot), g(\cdot))$. Usage is shown in Listing~\ref{code:example-expr}.
 
 \noindent%
 \lstinputlisting[caption={Expressions and Piecewise functions},label={code:example-expr}]{./scripts/listing_04.rb}
 
 \subsubsection{Meta-programming and Code-Generation}
 
-\ragnicas~is developed explicitly for \textbf{meta\-programming} and \textbf{code generation}. Expressions can be exported as source code or used as prototypes for callable \emph{closures} (\texttt{Proc} objects):
+\ragnicas~is developed explicitly for {meta\-programming} and code generation. Expressions can be exported as source code or used as prototypes for callable \emph{closures} (the \texttt{Proc} object in Listing~\ref{code:example-proc}):
 
 \noindent%
 \lstinputlisting[caption={Graph evaluation example},label={code:example-proc}]{./scripts/listing_05.rb}
 
 Compiling a closure of a tree is like making its snapshot, thus any further manipulation of the expression do not update the callable object. This drawback is balanced by the faster execution time of a \texttt{Proc}: when a graph needs \emph{only to be evaluated} in a iterative algorithm, transforming it in a \emph{closure} reduces the execution time per iteration.
 
-Code generation should be flexible enough to export expressions' trees in a user's target language. Generation methods for common languages are included in specific \textbf{plugins}. Users can furthermore expand exporting capabilities by writing specific exportation rules, overriding method for existing plugin, or designing their own exporter:
+Code generation should be flexible enough to export expressions' trees in a user's target language. Generation methods for common languages are included in specific \emph{plugins}. Users can furthermore expand exporting capabilities by writing specific exportation rules, overriding method for existing plugin, or designing their own exporter, like the one drafted in Listing~\ref{code:example-exporting}:
 
 \noindent%
 \lstinputlisting[caption={Example of Ruby code generation plugin},label={code:example-exporting}]{./scripts/listing_06.rb}
