@@ -1,4 +1,4 @@
-% !TEX root = Ragni2016.tex
+% !TEX root = ../Ragni2016.tex
 
 %  ___                     _
 % | __|_ ____ _ _ __  _ __| |___ ___
@@ -9,33 +9,33 @@
 \label{sec:examples}
 
 \subsection{Code Generation as C Library}
-In this example \review{it is shown how a \emph{user of \ragnicas} can export a mathematical model as a C library}. The \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
+This example \review{shows how a \emph{user of \ragnicas} can export a mathematical model as a C library}. The \texttt{c-opt} plugin implements advanced features such as code optimization and generation of libraries.
 
 The library \texttt{example} implements the model:
 \begin{equation}
+\label{eq:ex1model}
 f(x, y) = x^y + g(x)\, \log(\sin(x^y))
 \end{equation}
-where the expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, which interface is described in \texttt{g\_impl.h} header. \review{What should be noted is the form of the code exported}: the intermediate operation $x^y$ is evaluated once, even if appears twice in our model. The C function that implements our model $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values.
+where the expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, which interface is described in \texttt{g\_impl.h} header. \review{What should be noted is the corpus of the exported code}: the intermediate operation $x^y$ is evaluated once, even if appears twice in eq.~\ref{eq:ex1model}. The C function that implements $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values.
 
 \noindent%
 \lstinputlisting[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]{./scripts/example_01.rb}
 
-Library created by \texttt{CLib} contains the following code:
+Library created by \texttt{CLib} contains the code shown in Listing~\ref{code:c.ex.1}.
 
 \noindent%
 \begin{minipage}{.5\textwidth}
 \lstinputlisting[style=customruby,language=C,caption={C Header}]{./scripts/source.h}
 \end{minipage}\hfill
 \begin{minipage}{.5\textwidth}
-\lstinputlisting[style=customruby,language=C,caption={C Source},frame=tbl]{./scripts/source.c}
+\lstinputlisting[style=customruby,language=C,caption={C Source},frame=tbl,label={code:c.ex.1}]{./scripts/source.c}
 \end{minipage}
 
 The function $g(x)$ models the following operation:
 \begin{equation}
 g(x) = (\sqrt{x + a} - \sqrt{x}) + \sqrt{\pi + x}
 \end{equation}
-and may suffer from \emph{catastrophic \review{numerical} cancellation}~\cite{higham2002accuracy} \review{when $x$ value is considerably greater than $a$}. The user \review{may decide to} specialize code generation rules for this particular expression, \review{stabilizing it} through rationalization. \review{Without modifying the actual model} $g(x)$ in Listing~\ref{code:example-exporting-C-2} the rationalization is inserted \review{into exportation rules} for differences of square roots
-\footnote{i.e.:
+and may suffer from \emph{catastrophic \review{numerical} cancellation}~\cite{higham2002accuracy} \review{when $x$ value is considerably greater than $a$}. The user \review{may decide to} specialize code generation rules for this particular expression, \review{stabilizing it} through rationalization. \review{Without modifying the actual model}, $g(x)$ the rationalization is inserted \review{into exportation rules}---cfr. Listing~\ref{code:example-exporting-C-2}---for differences of square roots\footnote{i.e.:
 $\sqrt{\phi(\cdot)} - \sqrt{\psi(\cdot)} =
 \dfrac{\phi(\cdot) - \psi(\cdot)}{\sqrt{\phi(\cdot)} + \sqrt{\psi(\cdot)}}$}.
 \review{This rule is valid only for the current user script}. For more insight about \verb!__to_c! and \verb!__to_c_impl!\review{,} refer to the software manual.
@@ -56,12 +56,12 @@ It should be noted the separation between the \emph{model}---that does not conta
 \subsection{Using the module as interface}
 As example, an implementation of an algorithm that estimates the \emph{order of convergence} for trapezoidal integration scheme~\cite{weideman2002numerical} is provided, using the symbolic differentiation as interface.
 
-Given a function $f(x)$, the trapezoidal rule for primitive estimation in the interval $[a,\,b]$ is:
+Given a function $f(x)$, the trapezoidal rule for primitive estimation for the interval $[a,\,b]$ is:
 \begin{equation}
   I_{n}(a, b) = h\, \left( \dfrac{f(a) + f(b)}{2} +
     \sum\limits_{k = 1}^{n - 1}{f \left( a + k \,h \right)} \right)
 \end{equation}
-with $h = (b - a) / n $, where $n$ mediates the integration's step size. When exact primitive $F(x)$ is known, approximation error is:
+with $h = (b - a) / n $, where $n$ mediates the step size of the integration. When exact primitive $F(x)$ is known, approximation error is:
 \begin{equation}
   E[n] = F(b) - F(a) - I_{n}(a, b)
 \end{equation}
@@ -87,7 +87,7 @@ The Listings~\ref{code:example-integrate-ruby} and \ref{code:example-integrate-p
 \review{
 \subsection{ODE Solver with Taylor's series}
 
-In this example we assume a user needs to generate a solving step for specific ODE problems, using Taylor's series method~\cite{Butcher20081}. Given an ODE in the form:
+In this example, a solving step for a specific ordinary differential equation (ODE) using Taylor's series method~\cite{Butcher20081} is derived. Given an ODE in the form:
 \begin{equation}
 \label{eq:taylor.ode}
 y'(x) = f\left(x, y(x)\right)

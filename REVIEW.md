@@ -1,4 +1,4 @@
-# Review
+# First Review
 
 Dear editor in chief,
 
@@ -51,3 +51,144 @@ The examples presented describe the basic principle behind the software implemen
  * Overloading of the exportation rule for sign(x), that is transformed in sin(atan(ax)), and exportation with symbolic substitution
  * Latex code generation plugin
  * Newton-Raphson algorithm that uses automatic differentiation plugin.
+
+# Second Review
+
+Dear Editor in chief,
+
+I want to thank you and the reviewers for the efforts in reading my work and for the constructive suggestions and comments that I received. I am presenting you a revised and improved version of the paper.
+
+## Editor
+
+Dear Editor,
+
+thank you for your time and consideration in reading this work.
+The paper has been corrected and all unclear phrases have been revised.
+
+> You use a bold-font quite frequently in the text where it is probably not warranted.  
+> I would use it for sub-headings and maybe names of functions.  Otherwise make it a
+> regular font.   For example, CAS in the abstract should be a regular font.
+
+I've limited the use of bold style as you suggested. I will not reply to other points that refer to the same issue: they have been made a regular font.
+
+> Also instead of "- e.g"  use ", for example, ".
+
+I've dropped the "e.g." in accordance to your suggestion
+
+> Figure 1 - do not use "red" (not a good colour for people who are colour-blind)
+
+Red elements are now in dark green. I hope it fulfill your requirements.
+
+> Listings - the comments are in a "light gray" and difficult to read.
+> I would make them black
+
+Comments in listings are now black.
+
+> Abstract
+> - drop "complete" in the first line
+> - drop "even with a good software"
+
+I dropped both expressions.
+
+> 6 - replace "has been" by "was"
+
+Done.
+
+> 8 - PC is a bit ambiguous (also should be PCs)
+
+PC is now expanded to Personal Computers.
+
+> 8 - space between [3].
+> (check that all references have spaces between the preceding word)
+
+Done and checked.
+
+> 18 - drop "though"
+
+Dropped.
+
+> 18 - "intriguing" is probably not the right word
+
+"intriguing" is now "interesting"
+
+> 19 - "the scientific and technical fields."
+
+"and" inserted.
+
+> 23-34 I should be able to read each bullet point as a complete sentence starting with
+> "The library aims at:", but the bullet points are do not fit.  They need to be rewritten.
+
+The paragraph has been revised, dropping the itemize environment. (Lines 23-31)
+
+> 35 - "yet at early stage"  does not seem to fit into this sentence (missing "an")
+
+"an" inserted.
+
+> 40-42 - this sentence is poorly written
+
+The sentence has been rewritten. (Lines 38-39)
+
+> 73 - "The terminal"
+
+"The" inserted.
+
+> 77 - "As for now" - not sure what you mean (consider a different phrase)
+
+The sentence has been revised. "As for now" dropped. (Lines 74-76)
+
+> 80 - I would spell out SD
+> 80 - not sure what "crosses the graph" means
+
+SD has been speeled.
+"crosses the graph" is now "explores the graph".
+
+> 95 - maybe add "argument, as shown in Listing 1."
+> (and do the same for all text leading into a Listing)
+
+The correction you suggest has been implemented in Line 92, and all text
+leading into a Listing now contains the number of the listing itself, instead of "positional" reference.
+
+> 106 - "see [12] for further details."
+
+"further" inserted
+
+> 195 - "The c-opt .. "
+
+"The" inserted
+
+> 197 - "where the expression, g(x), .."
+
+The whole phrase has been revised (Line 195)
+
+> 222 - "The user"
+
+"The" inserted
+
+> 259 - this sentence is poorly written
+
+The whole paragraph has been revised (Line 258-262)
+
+> 264 - "The result of Listing 10"  
+> Listing 10 is above this sentence.
+
+"Positional" references are removed. Listing number is directly cited.
+
+> 268 - "for the trapeziodal .."
+
+The sentence has been reviewed (Line 268-269)
+
+> 277 - "The following listing  .."
+
+Instead of following, I've directly reported the listing numbers.
+
+> Drop the acknowledgements as you are not acknowledging anyone.
+
+I've dropped the acknowledgments.
+
+> 364 - "April"
+
+"april" is now "April"
+
+> 391 - "Python"
+
+"python" is now "Python"

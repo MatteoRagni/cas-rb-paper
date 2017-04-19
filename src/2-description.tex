@@ -1,4 +1,4 @@
-% !TEX root = Ragni2016.tex
+% !TEX root = ../Ragni2016.tex
 
 %  ___                 _      _   _
 % |   \ ___ ___ __ _ _(_)_ __| |_(_)___ _ _
@@ -54,7 +54,7 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 \begin{figure}[ht!]
 \centering
 \input{img/class-struct}
-\caption{\label{fig:uml-container}Reduced version of classes interface and inheritance. \review{The figure depicts the basic abstract class \CASOp, from which the \emph{single argument} operations inherit. \CASOp~is also the ancestor for other kind of containers, namely the \CASBinaryOp~and \CASNaryOp, models of container with \emph{two} and \emph{more arguments}}}
+\caption{\label{fig:uml-container}Reduced version of classes interface and inheritance. \review{The figure depicts the basic abstract class \CASOp, from which the \emph{single argument} operations inherit. \CASOp~is also the ancestor for other kind of containers, namely the \CASBinaryOp~and \CASNaryOp, the models of container with \emph{two} and \emph{more arguments}}}
 \end{figure}
 
 %  ___             _   _               _ _ _   _
@@ -67,7 +67,7 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 %\subsubsection{Software installation and prerequisites}
 \subsubsection{Basic Functionalities}
 
-\emph{No additional dependencies are required}. The gem can be installed through \emph{rubygems.org} provider\footnote{\texttt{gem install Mr.CAS}}. Functionalities must be required run-time using the Kernel method: \texttt{require \'Mr.CAS\'}. All methods and classes are encapsulated in the module \texttt{CAS}.
+\emph{No additional dependencies are required}. The gem can be installed through \emph{rubygems.org} provider\footnote{\texttt{gem install Mr.CAS}}. Functionalities must be required run-time using the Kernel method: \texttt{require 'Mr.CAS'}. All methods and classes are encapsulated in the module \texttt{CAS}.
 
 %\subsubsection{Basic Functionalities}
 
@@ -102,9 +102,9 @@ Symbolic expressions can be used to create comparative expressions, that are sto
 \noindent%
 \lstinputlisting[caption={Graph evaluation example},label={code:example-proc}]{./scripts/listing_05.rb}
 
-Compiling a closure of a tree is like making its snapshot, thus any further manipulation of the expression do not update the callable object. This drawback is balanced by the faster execution time of a \texttt{Proc}: when a graph needs \emph{only to be evaluated} in a iterative algorithm, transforming it in a \emph{closure} reduces the execution time per iteration.
+Compiling a closure of a tree is like making its snapshot, thus any further manipulation of the expression does not update the callable object. This drawback is balanced by the faster execution time of a \texttt{Proc}: when a graph needs \emph{only to be evaluated} in a iterative algorithm, transforming it in a \emph{closure} reduces the execution time per iteration.
 
-Code generation should be flexible enough to export expressions' trees in a user's target language. Generation methods for common languages are included in specific \emph{plugins}. Users can furthermore expand exporting capabilities by writing specific exportation rules, overriding method for existing plugin, or designing their own exporter, like the one drafted in Listing~\ref{code:example-exporting}:
+Code generation should be flexible enough to export expression trees in a user's target language. Generation methods for common languages are included in specific \emph{plugins}. Users can furthermore expand exporting capabilities by writing specific exportation rules, overriding method for existing plugin, or designing their own exporter, like the one drafted in Listing~\ref{code:example-exporting}:
 
 \noindent%
 \lstinputlisting[caption={Example of Ruby code generation plugin},label={code:example-exporting}]{./scripts/listing_06.rb}
