@@ -192,3 +192,113 @@ I've dropped the acknowledgments.
 > 391 - "Python"
 
 "python" is now "Python"
+
+
+# Third Review
+
+Dear Editor,
+
+thank you for your time and consideration in reading this work.
+The paper has been corrected and all unclear phrases have been revised.
+
+> I suggest replacing the dashes "-" with commas ",".  I believe that is the proper grammar.
+> See the abstract, line 10 and a quite a few other places.
+
+I reviewed all the em-dashes used, and removed in some paragraphs. But I kept the em-dashes
+where I wanted a clean separation between the main sentence and the "parenthetical" content.
+
+> 38 - "At the best .."
+> I would verify that you statement is true or remove it.
+
+The statement has been verified against the instructions in the wiki
+of the project, and even if the installation succeeded the gem does not
+work (always returns nil). I searched a way to fix it, but I never
+found a workaround. At best of my knowledge, this gem does not work.
+Also, the SciRuby project reports the gem a broken (http://gems.sciruby.com/).
+
+By the way, removing "At the best [...]" will make the sentence to much
+un-polite, and I really prefer to keep it.
+
+> 46 - drop "some"
+
+Fixed.
+
+> 64 - "Figure 1 shows a graphical representation of an expression."
+
+Fixed.
+
+> 85 - "through the"
+
+Fixed.
+
+> 86 - something wrong with the sentence starting "Functionalities .."
+
+Paragraph reviewed.
+
+> 102 - "as a plugin"  and "exploits the properties"
+
+Fixed.
+
+> 105 - replace "when" with "where"
+
+Fixed.
+
+> 105 - "that is platform dependent"
+> it is not clear what you are referring to with the "this"
+
+Removed, paragraph reviewed.
+
+> 107 - problems with the sentence starting "Each .."
+
+Paragraph reviewed.
+
+> 109 - replace "an" with "a"
+
+Fixed.
+
+> 119 - "when the independent"
+
+Fixed.
+
+> 162 - problems with the sentence "This .."  (reads poorly)
+
+Paragraph reviewed.
+
+> 170 - replace "drafted" with "shown"
+
+Fixed.
+
+> 216 - a one sentence paragraph - merge into previous paragraph
+
+Paragraphs merged.
+
+> 219 - "when the x value"
+
+Fixed.
+
+> 222 - problems with the sentence "Without .."
+
+Paragraph reviewed.
+
+> 276 - no italic
+
+I've always used Italic for Ruby and names for gems. I kept
+italic for consistency.
+
+> 283 - drop "obviously" (and the commas)
+> (maybe the text in 283-284 could be a new sentence)
+> (period at the end of equation 11)
+
+Fixed, but the paragraph has been reviewed.
+
+> 318 - a one sentence paragraph - merge into previous paragraph
+
+Paragraphs merged.
+
+> 319 - I suggest using "(a)" rather than "a."  Seems to look better.
+
+Fixed.
+
+> 326 - "allows one"
+
+Fixed.

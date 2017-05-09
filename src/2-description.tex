@@ -21,7 +21,7 @@
 % Give a short overview of the overall software architecture; provide a pictorial component overview
 % or similar (if possible). If necessary provide implementation details.
 
-\ragnicas~is an object oriented ASD gem that supports some computer algebra routines such as simplifications and substitutions. When gem is required, it overloads methods of \Fixnum~and \Float~classes, making them compatible with fundamental symbolic classes.
+\ragnicas~is an object oriented ASD gem that supports computer algebra routines such as simplifications and substitutions. When gem is required, it overloads methods of \Fixnum~and \Float~classes, making them compatible with fundamental symbolic classes.
 
 Each symbolic expression (or operation) is the instance of an object, that inherits from a common virtual ancestor: \CASOp. An operation encapsulates sub-operations recursively, building a tree, that is the mathematical equivalent of function composition:
 \begin{equation}
@@ -40,7 +40,7 @@ When a new operation is created, it is appended to the tree. The number of branc
   \item[\CASBinaryOp] dual sub-tree operation---e.g.~exponent $x^y$---that inherits from~\CASOp.
   \item[\CASNaryOp] operation with arbitrary number of sub-tree---e.g.~sum $x_1 + \cdots + x_N$---that inherits from~\CASOp.
 \end{description}
-Fig.~\ref{fig:graph} contains a graphical representation. The different kind of containers allows to introduce some properties---i.e.~\emph{associativity} and \emph{commutativity} for sums and multiplications~\cite{cohen2003computer}. Each container exposes the sub-tree as instance properties. \review{Basic} containers interfaces and inheritances are shown in Fig.~\ref{fig:uml-container}. \review{For a complete overview of all classes and inheritance, please refer to software documentation.}
+Fig.~\ref{fig:graph} contains a graphical representation of a expression tree. The different kind of containers allows to introduce some properties---i.e.~\emph{associativity} and \emph{commutativity} for sums and multiplications~\cite{cohen2003computer}. Each container exposes the sub-tree as instance properties. \review{Basic} containers interfaces and inheritances are shown in Fig.~\ref{fig:uml-container}. \review{For a complete overview of all classes and inheritance, please refer to software documentation.}
 
 The terminal leaves of the graph are the classes \CASConstant, \CASVariable~and \CASFunction. The first models a simple numerical value, while the second represents an independent variable, that can be used to perform derivatives and evaluations, and the latter is a prototype of implicit functions. Those leaves exemplify only real scalar expressions, with definition of complex, vectorial, and matricial extensions as milestones for the next major release.
 
@@ -67,7 +67,7 @@ The recursiveness is used also for simplifications (\CASOpsimplify), substitutio
 %\subsubsection{Software installation and prerequisites}
 \subsubsection{Basic Functionalities}
 
-\emph{No additional dependencies are required}. The gem can be installed through \emph{rubygems.org} provider\footnote{\texttt{gem install Mr.CAS}}. Functionalities must be required run-time using the Kernel method: \texttt{require 'Mr.CAS'}. All methods and classes are encapsulated in the module \texttt{CAS}.
+\emph{No additional dependencies are required}. The gem can be installed through the \emph{rubygems.org} provider\footnote{\texttt{gem install Mr.CAS}}. Gem functionalities are required using the Kernel method: \texttt{require 'Mr.CAS'}. All methods and classes are encapsulated in the module \texttt{CAS}.
 
 %\subsubsection{Basic Functionalities}
 
@@ -77,14 +77,14 @@ Symbolic Differentiation (SD) is performed with respect to independent variables
 \noindent%
 \lstinputlisting[caption={Differentiation example},label={code:example-diff}]{./scripts/listing_01.rb}
 
-Automatic differentiation (AD) is included as plugin and exploits properties of dual numbers to efficiently perform differentiation, see~\cite{bartholomew2000automatic} for further details. This differentiation strategy is useful in case of complex expressions, when explicit derivative's tree may exceed the call stack depth, that is platform dependent.
+Automatic differentiation (AD) is included as a plugin and exploits the properties of dual numbers to efficiently perform differentiation, see~\cite{bartholomew2000automatic} for further details. The AD strategy is useful in case of complex expressions, where explicit derivative's tree may exceed the call stack depth.
 
-Simplifications are not executed automatically, after differentiation. Each node of the tree knows rules for simplify itself, and rules are called recursively, exactly like ASD.\@ Simplifications that require an \emph{heuristic expansion} of the sub-graph---i.e.\ some trigonometric identities---are not defined for now, but can be easily achieved through substitutions, as shown in Listing~\ref{code:example-simp}.
+Simplifications are not executed automatically, after differentiation. Each node of the tree knows rules for simplify itself, and rules are called recursively, exactly like ASD.\@ Simplifications that require a \emph{heuristic expansion} of the sub-graph---i.e.\ some trigonometric identities---are not defined for now, but can be easily achieved through substitutions, as shown in Listing~\ref{code:example-simp}.
 
 \noindent%
 \lstinputlisting[caption={Simplification example},label={code:example-simp}]{./scripts/listing_02.rb}
 
-The tree is numerically evaluated when independent variables values are provided in a feed dictionary. The graph is reduced recursively to a single numeric value, as shown in Listing~\ref{code:example-call}.
+The tree is numerically evaluated when the independent variables values are provided in a feed dictionary. The graph is reduced recursively to a single numeric value, as shown in Listing~\ref{code:example-call}.
 
 \noindent%
 \lstinputlisting[caption={Tree evaluation example},label={code:example-call}]{./scripts/listing_03.rb}
@@ -102,9 +102,9 @@ Symbolic expressions can be used to create comparative expressions, that are sto
 \noindent%
 \lstinputlisting[caption={Graph evaluation example},label={code:example-proc}]{./scripts/listing_05.rb}
 
-Compiling a closure of a tree is like making its snapshot, thus any further manipulation of the expression does not update the callable object. This drawback is balanced by the faster execution time of a \texttt{Proc}: when a graph needs \emph{only to be evaluated} in a iterative algorithm, transforming it in a \emph{closure} reduces the execution time per iteration.
+Compiling a closure of a tree is like making its snapshot, thus any further manipulation of the expression does not update the callable object. This drawback is balanced by the faster execution time of a \texttt{Proc}: when a graph needs \emph{only to be evaluated}, transforming it in a \emph{closure} reduces the execution time---for example, in a iterative algorithm, where a closure is called at each iteration.
 
-Code generation should be flexible enough to export expression trees in a user's target language. Generation methods for common languages are included in specific \emph{plugins}. Users can furthermore expand exporting capabilities by writing specific exportation rules, overriding method for existing plugin, or designing their own exporter, like the one drafted in Listing~\ref{code:example-exporting}:
+Code generation should be flexible enough to export expression trees in a user's target language. Generation methods for common languages are included in specific \emph{plugins}. Users can furthermore expand exporting capabilities by writing specific exportation rules, overriding method for existing plugin, or designing their own exporter, like the one shown in Listing~\ref{code:example-exporting}:
 
 \noindent%
 \lstinputlisting[caption={Example of Ruby code generation plugin},label={code:example-exporting}]{./scripts/listing_06.rb}

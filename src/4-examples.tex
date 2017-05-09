@@ -16,12 +16,10 @@ The library \texttt{example} implements the model:
 \label{eq:ex1model}
 f(x, y) = x^y + g(x)\, \log(\sin(x^y))
 \end{equation}
-where the expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, which interface is described in \texttt{g\_impl.h} header. \review{What should be noted is the corpus of the exported code}: the intermediate operation $x^y$ is evaluated once, even if appears twice in eq.~\ref{eq:ex1model}. The C function that implements $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values.
+where the expression $g(x)$ belongs to a external object, declared as \texttt{g\_impl}, which interface is described in \texttt{g\_impl.h} header. \review{What should be noted is the corpus of the exported code}: the intermediate operation $x^y$ is evaluated once, even if appears twice in eq.~\ref{eq:ex1model}. The C function that implements $f(x,y)$ is declared with the token \texttt{f\_impl}. The exporter uses as default type \texttt{double} for variables and function returned values. Library created by \texttt{CLib} contains the code shown in Listing~\ref{code:c.ex.1}.
 
 \noindent%
 \lstinputlisting[caption={Calling optimized-C exporter for library generation},label={code:example-exporting-C-1}]{./scripts/example_01.rb}
-
-Library created by \texttt{CLib} contains the code shown in Listing~\ref{code:c.ex.1}.
 
 \noindent%
 \begin{minipage}{.5\textwidth}
@@ -35,15 +33,15 @@ The function $g(x)$ models the following operation:
 \begin{equation}
 g(x) = (\sqrt{x + a} - \sqrt{x}) + \sqrt{\pi + x}
 \end{equation}
-and may suffer from \emph{catastrophic \review{numerical} cancellation}~\cite{higham2002accuracy} \review{when $x$ value is considerably greater than $a$}. The user \review{may decide to} specialize code generation rules for this particular expression, \review{stabilizing it} through rationalization. \review{Without modifying the actual model}, $g(x)$ the rationalization is inserted \review{into exportation rules}---cfr. Listing~\ref{code:example-exporting-C-2}---for differences of square roots\footnote{i.e.:
+and may suffer from \emph{catastrophic \review{numerical} cancellation}~\cite{higham2002accuracy} \review{when the $x$ value is considerably greater than $a$}. The user \review{may decide to} specialize code generation rules for this particular expression, \review{stabilizing it} through rationalization. \review{Without modifying the actual model}, $g(x)$ the rationalization for differences of square roots\footnote{i.e.:
 $\sqrt{\phi(\cdot)} - \sqrt{\psi(\cdot)} =
-\dfrac{\phi(\cdot) - \psi(\cdot)}{\sqrt{\phi(\cdot)} + \sqrt{\psi(\cdot)}}$}.
-\review{This rule is valid only for the current user script}. For more insight about \verb!__to_c! and \verb!__to_c_impl!\review{,} refer to the software manual.
+\dfrac{\phi(\cdot) - \psi(\cdot)}{\sqrt{\phi(\cdot)} + \sqrt{\psi(\cdot)}}$} is inserted \review{into the exportation rules}, as in Listing~\ref{code:example-exporting-C-2}.
+\review{The rules are valid only for the current user script}. For more insight about \verb!__to_c! and \verb!__to_c_impl!\review{,} refer to the software manual.
 
 \noindent%
 \lstinputlisting[caption={Conditioning in exporting function},label={code:example-exporting-C-2}]{./scripts/example_02.rb}
 
-It should be noted the separation between the \emph{model}---that does not contain \review{stabilization}---and the \emph{code generation rule}. For this particular case, the code generation rule in Listing~\ref{code:example-exporting-C-2} overloads the predefined one, in order to \review{obtain the conditioned code}. Obviously, the user can decide to apply directly the conditioning on the model itself\review{, but this may change the calculus behavior in further manipulation}.
+It should be noted the separation between the \emph{model}, which does not contain \review{stabilization}, and the \emph{code generation rule}. For this particular case, the code generation rule in Listing~\ref{code:example-exporting-C-2} overloads the predefined one, in order to \review{obtain the conditioned code}. Obviously, the user can decide to apply directly the conditioning on the model itself\review{, but this may change the calculus behavior in further manipulation}.
 
 \noindent%
 \begin{minipage}{.5\textwidth}
@@ -96,18 +94,17 @@ the integration step with order $n$ has the form:
 \begin{equation}
 y(x + h) = y(x)  + h\,y'(x) + \dots + \dfrac{h^{n}}{n!} \, y^{(n)}(x) + E_{n}(x)
 \end{equation}
-where, obviously, it is possible to use equation~\ref{eq:taylor.ode}, which brings to the following recurrent identity:
+where it is possible to substitute equation~\ref{eq:taylor.ode}:
 \begin{equation}
 {y}^{(i)}(x) =
 \dfrac{\partial {y}^{(i-1)}(x)}{\partial x} +
 \dfrac{\partial {y}^{(i-1)}(x)}{\partial y} {y'}(x)
 \end{equation}
-For this algorithm, three methods are defined. The first evaluates the factorial, the second evaluates the list of required derivatives, and the third returns the integration step in a symbolic form. The result of the third method is transformed in a C function. In this particular case, the ODE is $y' = x y$.
+For this algorithm, three methods are defined. The first evaluates the factorial, the second evaluates the list of required derivatives, and the third returns the integration step in a symbolic form. The result of the third method is transformed in a C function. In this particular case, the ODE is $y' = x y$. For the resulting C code of Listing~\ref{code:example-ode}, refer to the online version of the examples.
 \lstinputlisting[caption={Generator for ODE integration step},label={code:example-ode}]{./scripts/listing_07.rb}
-For the resulting C code, refer to the online version of the examples.
 
 Other examples are available online\footnote{\url{http://bit.ly/Mr_CAS_examples}}:
-\begin{enumerate*}[label=\emph{\alph*}.]
+\begin{enumerate*}[label=(\emph{\alph*})]
 \item adding a user defined \CASOp~that implements the $\mathrm{sign}(\cdot)$ function with the appropriate optimized C generation rule;
 \item exporting the operation as a continuous function through overloading or substitutions;
 \item performing a symbolic Taylor's series;
