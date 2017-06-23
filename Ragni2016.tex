@@ -1,6 +1,7 @@
 % !TEX root = Ragni2016.tex
 % Disable review before sending
-\documentclass[preprint, 12pt, a4paper]{elsarticle}
+%\documentclass[preprint, 12pt, a4paper]{elsarticle}
+\documentclass{article}
 
 \usepackage[english]{babel}
 
@@ -11,7 +12,7 @@
 \usepackage{xspace}
 \usepackage[inline]{enumitem}
 
-\usepackage{lineno}
+%\usepackage{lineno}
 \usepackage{sty/tikz-uml}
 \usetikzlibrary{arrows,automata}
 
@@ -37,7 +38,7 @@
 
 \input{src/0-commands}
 
-\journal{SoftwareX}
+%\journal{SoftwareX}
 
 \begin{document}
 
@@ -45,13 +46,14 @@
 % | __| _ ___ _ _| |_ _ __  __ _| |_| |_ ___ _ _
 % | _| '_/ _ \ ' \  _| '  \/ _` |  _|  _/ -_) '_|
 % |_||_| \___/_||_\__|_|_|_\__,_|\__|\__\___|_|
-\begin{frontmatter}
+%\begin{frontmatter}
 
 \title{\ragnicas --- A Minimalistic (pure) \Ruby CAS for Fast Prototyping and Code Generation}
 
-\author[ragni]{Matteo Ragni}
-\address[ragni]{Department of Industrial Engineering, University of Trento, 9, Sommarive, Povo di Trento, Italy}
-\ead{matteo.ragni@unitn.it}
+%\author[ragni]{Matteo Ragni}
+%\address[ragni]{Department of Industrial Engineering, University of Trento, 9, Sommarive, Povo di Trento, Italy}
+%\ead{matteo.ragni@unitn.it}
+\author{Matteo Ragni}
 
 \begin{abstract}
 There are Computer Algebra System (CAS) systems on the market with complete solutions for manipulation of analytical models. But exporting a model \review{that implements specific algorithms on specific platforms,} for target languages \review{or for particular numerical library,} is often a rigid procedure that requires manual post-processing.
@@ -59,16 +61,16 @@ This work presents a \Ruby library that exposes core CAS capabilities, i.e.\ sim
 The library is written in pure \Ruby language and is compatible with most \Ruby interpreters.
 \end{abstract}
 
-\begin{keyword}
-CAS \sep{} code-generation \sep{} Ruby
+%\begin{keyword}
+%CAS \sep{} code-generation \sep{} Ruby
 %% PACS codes here, in the form: \PACS code \sep code
 %% MSC codes here, in the form: \MSC code \sep code
 %% or \MSC[2008] code \sep code (2000 is the default)
-\end{keyword}
+%\end{keyword}
 
-\end{frontmatter}
+%\end{frontmatter}
 
-\linenumbers{}
+%\linenumbers{}
 
 %% Body
 \input{src/1-motivation}
@@ -87,7 +89,7 @@ CAS \sep{} code-generation \sep{} Ruby
 % | _ \ | '_ \ | / _ \/ _` | '_/ _` | '_ \ ' \ || |
 % |___/_|_.__/_|_\___/\__, |_| \__,_| .__/_||_\_, |
 %                     |___/         |_|       |__/
-\bibliographystyle{elsarticle-num}
+\bibliographystyle{plain}
 \bibliography{bib}
 
 
